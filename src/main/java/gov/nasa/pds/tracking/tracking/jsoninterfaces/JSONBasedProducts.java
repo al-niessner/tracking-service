@@ -250,4 +250,48 @@ public class JSONBasedProducts {
 		String jsonOutput = "" + relt.toString(4);
 		return Response.status(200).entity(jsonOutput).build();
 	}
+	@Path("/prodwithstatus")
+    @GET
+    @Produces("application/json")
+	public Response getProductsWithLatestStatus() throws JSONException {
+		 
+        JSONObject jsonProducts = new JSONObject();
+        
+        JSONObject jsonProd = new JSONObject();
+        
+        ProductDao prod;
+		try {
+			prod = new ProductDao();
+			List<Product> prods = prod.getProductsWithStatus();
+			logger.info("number of products with status: "  + prods.size());
+			Iterator<Product> itr = prods.iterator();
+			int count = 1;
+			
+			while(itr.hasNext()) {
+		         Product p = itr.next();
+		         logger.debug("Product " + count + ":\n " + p.getIdentifier() + " : " + p.getTitle());
+		         
+		         jsonProd = new JSONObject();
+		         jsonProd.put(ProductDao.IDENTIFIERCOLUMN, p.getIdentifier());
+		         jsonProd.put(ProductDao.VERSIONCOLUMN, p.getVersion());
+		         jsonProd.put(ProductDao.TITLECOLUMN, p.getTitle());
+		         jsonProd.put(ProductDao.TYPECOLUMN, p.getType());
+		         jsonProd.put(ProductDao.ALTERNATECOLUMN, p.getAlternate() != null ? p.getAlternate() : "");
+		         //logger.debug("AStatus " + p.getAStatus());
+		         jsonProd.put("astatus", p.getAStatus());
+		         jsonProd.put("cstatus", p.getCStatus());
+		         jsonProd.put("nssdca", p.getNssdca());
+
+		         jsonProducts.append("products", jsonProd);
+		         count++;
+		    }
+			
+		} catch (ClassNotFoundException e) {
+			logger.error(e);
+		} catch (SQLException e) {
+			logger.error(e);
+		}
+        String result = "" + jsonProducts.toString(4);
+        return Response.status(200).entity(result).build();
+    }
 }

@@ -121,6 +121,12 @@ public class Product  implements Serializable  {
 	private String nodeRef = null;
 	private String nodeTitle = null;
 
+	private String aStatus = null;
+
+	private String cStatus = null;
+
+	private String nssdca = null;
+
 	/**
 	 * @return
 	 */
@@ -201,5 +207,27 @@ public class Product  implements Serializable  {
 
 	public Product() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public void setAStatus(String astatus) {
+		aStatus = astatus;
+		
+	}
+	public void setCStatus(String cstatus) {
+		cStatus = cstatus;
+		
+	}
+	public void setNssdca(String nss) {
+		nssdca = nss;
+		
+	}
+	public String getAStatus() {
+		return aStatus;
+	}
+	public String getCStatus() {
+		return cStatus;
+	}
+	public String getNssdca() {
+		return nssdca;
 	}
 }

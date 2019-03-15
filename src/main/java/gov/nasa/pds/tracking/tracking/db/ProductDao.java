@@ -374,4 +374,70 @@ public class ProductDao extends DBConnector {
 	    }
 		return prodUpdated;
 	}
+	
+	/**
+	 * @return a list of all products with latest three types of status order by title 
+	 */
+	public List<Product> getProductsWithStatus() {
+		
+		List<Product> prodObjs = new ArrayList<Product>();
+
+		try {
+			prodObjs = getProductsOrderByTitle();
+			
+			if (prodObjs != null && prodObjs.size() > 0 ) {
+				for (int i = 0; i < prodObjs.size(); i++){
+					getStatuses (prodObjs.get(i)); 
+					//logger.debug("AStatus 1: " + prodObjs.get(i).getAStatus());
+				}
+			}
+			
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		return prodObjs;
+
+	}
+
+	private void getStatuses(Product prod) {
+		try {
+			String aStatusValue = "";
+			String cStatusValue = "";
+			String nssdcaValue = "";
+			
+			ArchiveStatusDao aStatusDao = new ArchiveStatusDao();
+			ArchiveStatus aStatus = aStatusDao.getLatestArchiveStatus(prod.getIdentifier(), prod.getVersion());
+			if(aStatus != null && aStatus.getStatus() != null){
+				aStatusValue = aStatus.getStatus();
+			}
+			prod.setAStatus(aStatusValue);
+			
+			CertificationStatusDao cStatusDao = new CertificationStatusDao();
+			CertificationStatus cStatus = cStatusDao.getLatestCertificationStatus(prod.getIdentifier(), prod.getVersion());
+			if(cStatus != null && cStatus.getStatus() != null){
+				cStatusValue = cStatus.getStatus();
+			}
+			prod.setCStatus(cStatusValue);
+			
+			NssdcaStatusDao nStatusDao = new NssdcaStatusDao();
+			List<NssdcaStatus> nStatusList = nStatusDao.getNssdcaStatusList(prod.getIdentifier(), prod.getVersion());
+			if (nStatusList != null && nStatusList.size() > 0){
+				NssdcaStatus nStatus = nStatusList.get(0);
+				if(nStatus != null && nStatus.getNssdca() != null){
+					nssdcaValue = nStatus.getNssdca();
+				}
+			}
+			prod.setNssdca(nssdcaValue);
+			
+			
+		} catch (ClassNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		
+	}
 }
