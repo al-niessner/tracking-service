@@ -23,6 +23,20 @@
   </properties>
 
   <body>
+    <release version="0.4.0" date="2019-03-29" description="This release of the Tracking Service is a component of the integrated release 9.0.0 of the PDS4 System. This is an operational release of the system components to date.">
+      <action dev="danyu" type="add" issue="PDS-594">
+        Added REST-based interfaces to insert/update Product, Archive/Certification/NSSDCA statuses.
+      </action>
+      <action dev="danyu" type="add" issue="PDS-619">
+        Added REST-based interfaces to insert/update Delivery, Role, and Users.
+      </action>
+      <action dev="danyu" type="add" issue="PDS-636">
+        Added REST-based interfaces to insert/update Instrument, Investigation, and Node references.
+      </action>
+      <action dev="danyu" type="add" issue="PDS-787">
+        Added REST-based interface to get a list of all products with the latest status for each product.
+      </action>
+    </release>
     <release version="0.3.0" date="2018-09-28" description="This release of the Tracking Service is a component of the integrated release 9.0.0 of the PDS4 System. This is an operational release of the system components to date.">
       <action dev="danyu" type="add">
         Added interfaces for NSSDCA status, references, DOI and submission/submision status.
