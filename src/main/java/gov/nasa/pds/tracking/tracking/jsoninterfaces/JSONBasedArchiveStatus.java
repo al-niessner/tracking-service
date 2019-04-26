@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -28,7 +30,6 @@ import org.json.JSONObject;
 
 import gov.nasa.pds.tracking.tracking.db.ArchiveStatus;
 import gov.nasa.pds.tracking.tracking.db.ArchiveStatusDao;
-import gov.nasa.pds.tracking.tracking.db.DBConnector;
 
 /**
  * @author danyu dan.yu@jpl.nasa.gov
@@ -41,6 +42,8 @@ public class JSONBasedArchiveStatus {
 	
 	private static final String FAILURE_RESULT="Failure";
 	private ArchiveStatusDao asD;
+	
+	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	/**
 	 * @return
@@ -71,7 +74,7 @@ public class JSONBasedArchiveStatus {
 		     	
 		     	 jsonAStatus.put(ArchiveStatusDao.LOGIDENTIFIERCOLUMN, as.getLogIdentifier());
 		     	 jsonAStatus.put(ArchiveStatusDao.VERSIONCOLUMN, as.getVersion());
-		     	 jsonAStatus.put(ArchiveStatusDao.DATECOLUMN, as.getDate());
+		     	 jsonAStatus.put(ArchiveStatusDao.DATECOLUMN, df.format(as.getDate()));
 		     	 jsonAStatus.put(ArchiveStatusDao.STATUSCOLUMN, as.getStatus());
 		     	 jsonAStatus.put(ArchiveStatusDao.EMAILCOLUMN, as.getEmail());		         
 		     	 jsonAStatus.put(ArchiveStatusDao.COMMENTCOLUMN, as.getComment() != null ? as.getComment() : "");
@@ -133,7 +136,7 @@ public class JSONBasedArchiveStatus {
 		     	
 		     	 jsonAStatus.put(ArchiveStatusDao.LOGIDENTIFIERCOLUMN, as.getLogIdentifier());
 		     	 jsonAStatus.put(ArchiveStatusDao.VERSIONCOLUMN, as.getVersion());
-		     	 jsonAStatus.put(ArchiveStatusDao.DATECOLUMN, as.getDate());
+		     	 jsonAStatus.put(ArchiveStatusDao.DATECOLUMN, df.format(as.getDate()));
 		     	 jsonAStatus.put(ArchiveStatusDao.STATUSCOLUMN, as.getStatus());
 		     	 jsonAStatus.put(ArchiveStatusDao.EMAILCOLUMN, as.getEmail());		         
 		     	 jsonAStatus.put(ArchiveStatusDao.COMMENTCOLUMN, as.getComment() != null ? as.getComment() : "");
@@ -168,14 +171,13 @@ public class JSONBasedArchiveStatus {
 		try {
 			asD = new ArchiveStatusDao();
 			
-			String currentTime = DBConnector.ISO_BASIC.format(new Date());
-			ArchiveStatus as = new ArchiveStatus(logicalIdentifier, ver, currentTime, status, email, comment);
+			ArchiveStatus as = new ArchiveStatus(logicalIdentifier, ver, new Timestamp(new Date().getTime()), status, email, comment);
 			int result = asD.insertArchiveStatus(as);
 			
 			if(result == 1){
 				message.put(ArchiveStatusDao.LOGIDENTIFIERCOLUMN, as.getLogIdentifier());
 				message.put(ArchiveStatusDao.VERSIONCOLUMN, as.getVersion());
-				message.put(ArchiveStatusDao.DATECOLUMN, as.getDate());
+				message.put(ArchiveStatusDao.DATECOLUMN, df.format(as.getDate()));
 				message.put(ArchiveStatusDao.STATUSCOLUMN, as.getStatus());
 				message.put(ArchiveStatusDao.EMAILCOLUMN, as.getEmail());		         
 				message.put(ArchiveStatusDao.COMMENTCOLUMN, as.getComment() != null ? as.getComment() : "");

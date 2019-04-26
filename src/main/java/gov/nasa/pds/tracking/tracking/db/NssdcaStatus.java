@@ -1,6 +1,8 @@
 package gov.nasa.pds.tracking.tracking.db;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.log4j.Logger;
 
@@ -13,13 +15,13 @@ public class NssdcaStatus implements Serializable  {
 
 	private String logIdentifier = null;
 	private String version = null;
-	private String date = null;
+	private Timestamp date = null;
 	private String nssdca = null;
 	private String email = null;
 	private String comment = null;
 	
 	
-	public NssdcaStatus(String logIdenf, String ver, String date, String nda, String email, String comm) {
+	public NssdcaStatus(String logIdenf, String ver, Timestamp date, String nda, String email, String comm) {
 		this.logIdentifier = logIdenf;
 		this.version = ver;
 		this.date = date;
@@ -66,7 +68,7 @@ public class NssdcaStatus implements Serializable  {
 	/**
 	 * @return the date
 	 */
-	public String getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
@@ -75,7 +77,7 @@ public class NssdcaStatus implements Serializable  {
 	/**
 	 * @param date, the date to set
 	 */
-	public void setDate(String date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 

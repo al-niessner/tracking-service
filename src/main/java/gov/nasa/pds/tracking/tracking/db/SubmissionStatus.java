@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +37,8 @@ public class SubmissionStatus extends DBConnector {
 	private ResultSet resultSet = null;
 	
 	private int del_identifier = 0;
-	private String submissionDate = null;
-	private String statusDate = null;
+	private Timestamp submissionDate = null;
+	private Timestamp statusDate = null;
 	private String status = null;
 	private String email = null;
 	private String comment = null;
@@ -59,28 +60,28 @@ public class SubmissionStatus extends DBConnector {
 	/**
 	 * @return the submissionDate
 	 */
-	public String getSubmissionDate() {
+	public Timestamp getSubmissionDate() {
 		return submissionDate;
 	}
 
 	/**
 	 * @param submissionDate, the submissionDate to set
 	 */
-	public void setSubmissionDate(String submissionDate) {
+	public void setSubmissionDate(Timestamp submissionDate) {
 		this.submissionDate = submissionDate;
 	}
 
 	/**
 	 * @return the statusDate
 	 */
-	public String getStatusDate() {
+	public Timestamp getStatusDate() {
 		return statusDate;
 	}
 
 	/**
 	 * @param statusDate, the statusDate to set
 	 */
-	public void setStatusDate(String statusDate) {
+	public void setStatusDate(Timestamp statusDate) {
 		this.statusDate = statusDate;
 	}
 
@@ -154,8 +155,8 @@ public class SubmissionStatus extends DBConnector {
 				status = new SubmissionStatus();
 
 				status.setDel_identifier(resultSet.getInt(DEL_IDENTIFIERCOLUME));
-				status.setSubmissionDate(resultSet.getString(SUBMISSIONDATECOLUME));
-				status.setStatusDate(resultSet.getString(STATUSDATECOLUME));
+				status.setSubmissionDate(resultSet.getTimestamp(SUBMISSIONDATECOLUME));
+				status.setStatusDate(resultSet.getTimestamp(STATUSDATECOLUME));
 				status.setStatus(resultSet.getString(STATUSCOLUME));
 				status.setEmail(resultSet.getString(EMAILCOLUME));
 				status.setComment(resultSet.getString(COMMENTCOLUME));
@@ -196,8 +197,8 @@ public class SubmissionStatus extends DBConnector {
 				status = new SubmissionStatus();
 
 				status.setDel_identifier(resultSet.getInt(DEL_IDENTIFIERCOLUME));
-				status.setSubmissionDate(resultSet.getString(SUBMISSIONDATECOLUME));
-				status.setStatusDate(resultSet.getString(STATUSDATECOLUME));
+				status.setSubmissionDate(resultSet.getTimestamp(SUBMISSIONDATECOLUME));
+				status.setStatusDate(resultSet.getTimestamp(STATUSDATECOLUME));
 				status.setStatus(resultSet.getString(STATUSCOLUME));
 				status.setEmail(resultSet.getString(EMAILCOLUME));
 				status.setComment(resultSet.getString(COMMENTCOLUME));
@@ -243,7 +244,7 @@ public class SubmissionStatus extends DBConnector {
 	 * @param email
 	 * @param comment
 	 */
-	public void insertSubmissionStatus(int deliveryIdentifier, String subDateTime, String statusDateTime,
+	public void insertSubmissionStatus(int deliveryIdentifier, Timestamp subDateTime, Timestamp statusDateTime,
 			String status, String email, String comment) {
 		try {
 			// Setup the connection with the DB
@@ -258,8 +259,8 @@ public class SubmissionStatus extends DBConnector {
 																					+ COMMENTCOLUME
 																					+ ") VALUES (?, ?, ?, ?, ?, ?)");
 			prepareStm.setInt(1, deliveryIdentifier);
-			prepareStm.setString(2, subDateTime);
-			prepareStm.setString(3, statusDateTime);
+			prepareStm.setTimestamp(2, subDateTime);
+			prepareStm.setTimestamp(3, statusDateTime);
 			prepareStm.setString(4, status);
 			prepareStm.setString(5, email);
 			prepareStm.setString(6, comment);

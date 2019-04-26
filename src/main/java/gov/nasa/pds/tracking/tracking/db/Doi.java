@@ -4,6 +4,7 @@
 package gov.nasa.pds.tracking.tracking.db;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,7 +35,7 @@ public class Doi  implements Serializable  {
 	private String version;
 	private String doi;
 	private String url;
-	private String date;
+	private Timestamp date;
 	private String email;
 	private String comment;
 
@@ -110,7 +111,7 @@ public class Doi  implements Serializable  {
 	/**
 	 * @return the date
 	 */
-	public String getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
@@ -119,7 +120,7 @@ public class Doi  implements Serializable  {
 	 * @param date, the date to set
 	 */
 	@XmlElement
-	public void setDate(String date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 
@@ -162,7 +163,7 @@ public class Doi  implements Serializable  {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public Doi(String logical_id, String ver, String doi, String date, String url, String email, String comment) {
+	public Doi(String logical_id, String ver, String doi, Timestamp date, String url, String email, String comment) {
 		this.log_identifier = logical_id;
 		this.version = ver;
 		this.doi = doi;

@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +27,6 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import gov.nasa.pds.tracking.tracking.db.DBConnector;
 import gov.nasa.pds.tracking.tracking.db.Doi;
 import gov.nasa.pds.tracking.tracking.db.DoiDao;
 
@@ -38,7 +39,7 @@ public class JSONBasedDOI {
 	
 	public static Logger logger = Logger.getLogger(JSONBasedDOI.class);
 	private static final String FAILURE_RESULT="Failure";
-	
+	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private DoiDao dd;
 	
 	/**
@@ -70,7 +71,7 @@ public class JSONBasedDOI {
 		         jsonDOI.put(Doi.LOG_IDENTIFIERCOLUME, d.getLog_identifier());
 		         jsonDOI.put(Doi.VERSIONCOLUME, d.getVersion());
 		         jsonDOI.put(Doi.DOICOLUME, d.getDoi());
-		         jsonDOI.put(Doi.DATECOLUME, d.getDate());
+		         jsonDOI.put(Doi.DATECOLUME, df.format(d.getDate()));
 		         jsonDOI.put(Doi.URLCOLUME, d.getUrl());		         
 		         jsonDOI.put(Doi.EMAILCOLUME, d.getEmail());
 		         jsonDOI.put(Doi.COMMENTCOLUME, d.getComment() != null ? d.getComment() : "");
@@ -113,7 +114,7 @@ public class JSONBasedDOI {
 			jsonDOI.put(Doi.LOG_IDENTIFIERCOLUME, d.getLog_identifier());
 			jsonDOI.put(Doi.VERSIONCOLUME, d.getVersion());
 			jsonDOI.put(Doi.DOICOLUME, d.getDoi());
-			jsonDOI.put(Doi.DATECOLUME, d.getDate());
+			jsonDOI.put(Doi.DATECOLUME, df.format(d.getDate()));
 			jsonDOI.put(Doi.URLCOLUME, d.getUrl());		         
 			jsonDOI.put(Doi.EMAILCOLUME, d.getEmail());
 			jsonDOI.put(Doi.COMMENTCOLUME, d.getComment() != null ? d.getComment() : "");
@@ -144,9 +145,8 @@ public class JSONBasedDOI {
 		JSONObject message = new JSONObject();
 		try {
 			dd = new DoiDao();
-		
-			String currentTime = DBConnector.ISO_BASIC.format(new Date());
-			Doi d = new Doi(id, ver, doi, currentTime, url, email, comment);
+
+			Doi d = new Doi(id, ver, doi, new Timestamp(new Date().getTime()), url, email, comment);
 			
 			int result = dd.insertDOI(d);
 			
@@ -154,7 +154,7 @@ public class JSONBasedDOI {
 				message.put(DoiDao.LOG_IDENTIFIERCOLUME, d.getLog_identifier());
 				message.put(DoiDao.VERSIONCOLUME, d.getVersion());
 				message.put(DoiDao.DOICOLUME, d.getDoi());
-				message.put(DoiDao.DATECOLUME, d.getDate());
+				message.put(DoiDao.DATECOLUME, df.format(d.getDate()));
 				message.put(DoiDao.URLCOLUME, d.getUrl());
 				message.put(DoiDao.EMAILCOLUME, d.getEmail());
 				message.put(DoiDao.COMMENTCOLUME, d.getComment() != null ? d.getComment() : "");
@@ -193,7 +193,7 @@ public class JSONBasedDOI {
 				message.put(DoiDao.LOG_IDENTIFIERCOLUME, updatedDoi.getLog_identifier());
 				message.put(DoiDao.VERSIONCOLUME, updatedDoi.getVersion());
 				message.put(DoiDao.DOICOLUME, updatedDoi.getDoi());
-				message.put(DoiDao.DATECOLUME, updatedDoi.getDate());
+				message.put(DoiDao.DATECOLUME, df.format(updatedDoi.getDate()));
 				message.put(DoiDao.URLCOLUME, updatedDoi.getUrl());
 				message.put(DoiDao.EMAILCOLUME, updatedDoi.getEmail());
 				message.put(DoiDao.COMMENTCOLUME, updatedDoi.getComment() != null ? updatedDoi.getComment() : "");

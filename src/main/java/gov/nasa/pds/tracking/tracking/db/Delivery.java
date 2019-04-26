@@ -7,6 +7,9 @@
 package gov.nasa.pds.tracking.tracking.db;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.log4j.Logger;
 
@@ -25,13 +28,13 @@ public class Delivery implements Serializable  {
 		private int del_identifier = 0;
 		private String version = null;
 		private String name = null;
-		private String start = null;
-		private String stop = null;
+		private Timestamp start = null;
+		private Timestamp stop = null;
 		private String source = null;
 		private String target = null;
-		private String dueDate = null;
+		private Date dueDate = null;
 		
-		public Delivery(String logIdentifier, int delIdentifier, String ver, String name, String startTime, String stopTime, String src, String tgt, String dueD){
+		public Delivery(String logIdentifier, int delIdentifier, String ver, String name, Timestamp startTime, Timestamp stopTime, String src, String tgt, Date dueD){
 			
 			this.log_identifier = logIdentifier;
 			this.del_identifier = delIdentifier;
@@ -102,28 +105,28 @@ public class Delivery implements Serializable  {
 		/**
 		 * @return the start
 		 */
-		public String getStart() {
+		public Timestamp getStart() {
 			return start;
 		}
 
 		/**
 		 * @param start, the start to set
 		 */
-		public void setStart(String start) {
+		public void setStart(Timestamp start) {
 			this.start = start;
 		}
 
 		/**
 		 * @return the stop
 		 */
-		public String getStop() {
+		public Timestamp getStop() {
 			return stop;
 		}
 
 		/**
 		 * @param stop, the stop to set
 		 */
-		public void setStop(String stop) {
+		public void setStop(Timestamp stop) {
 			this.stop = stop;
 		}
 
@@ -158,14 +161,14 @@ public class Delivery implements Serializable  {
 		/**
 		 * @return the dueDate
 		 */
-		public String getDueDate() {
+		public Date getDueDate() {
 			return dueDate;
 		}
 
 		/**
 		 * @param dueDate, the dueDate to set
 		 */
-		public void setDueDate(String dueDate) {
+		public void setDueDate(Date dueDate) {
 			this.dueDate = dueDate;
 		}
 

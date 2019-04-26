@@ -4,6 +4,7 @@
 package gov.nasa.pds.tracking.tracking.db;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,15 +23,15 @@ public class SubmissionAndStatus implements Serializable {
 	public static Logger logger = Logger.getLogger(SubmissionAndStatus.class);
 	
 	private int del_identifier;
-	private String submissionDate;
-	private String statusDate;
+	private Timestamp submissionDate;
+	private Timestamp statusDate;
 	private String status;
 	private String email;
 	private String comment;
 	
  
 	    
-   public SubmissionAndStatus(int deliveryIdentifier, String subDateTime, String statusDateTime,
+   public SubmissionAndStatus(int deliveryIdentifier, Timestamp subDateTime, Timestamp statusDateTime,
 			String status, String email, String comment){
 	   
       this.del_identifier = deliveryIdentifier; 
@@ -64,7 +65,7 @@ public class SubmissionAndStatus implements Serializable {
 	/**
 	 * @return the submissionDate
 	 */
-	public String getSubmissionDate() {
+	public Timestamp getSubmissionDate() {
 		return submissionDate;
 	}
 
@@ -72,13 +73,13 @@ public class SubmissionAndStatus implements Serializable {
 	 * @param submissionDate, the submissionDate to set
 	 */
 	@XmlElement
-	public void setSubmissionDate(String submissionDate) {
+	public void setSubmissionDate(Timestamp submissionDate) {
 		this.submissionDate = submissionDate;
 	}
 	/**
 	 * @return the statusDate
 	 */
-	public String getStatusDate() {
+	public Timestamp getStatusDate() {
 		return statusDate;
 	}
 
@@ -86,7 +87,7 @@ public class SubmissionAndStatus implements Serializable {
 	 * @param statusDate, the statusDate to set
 	 */
 	@XmlElement
-	public void setStatusDate(String statusDate) {
+	public void setStatusDate(Timestamp statusDate) {
 		this.statusDate = statusDate;
 	}
 
