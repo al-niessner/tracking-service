@@ -57,7 +57,7 @@ public class DeliveryDao extends DBConnector {
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select * from " 
 												+ TABLENAME 
-												+ " WHERE " + DEL_IDENTIFIERCOLUMN + " = " + delID);
+												+ " WHERE " + DEL_IDENTIFIERCOLUMN + " = ?");
 			
 			while (resultSet.next()) {
 				del = new Delivery();
@@ -66,11 +66,11 @@ public class DeliveryDao extends DBConnector {
 				del.setDelIdentifier(resultSet.getInt(DEL_IDENTIFIERCOLUMN));								
 				del.setVersion(resultSet.getString(VERSIONCOLUMN));				
 				del.setName(resultSet.getString(NAMECOLUMN));				
-				del.setStart(resultSet.getTimestamp(STARTCOLUMN));
-				del.setStop(resultSet.getTimestamp(STOPCOLUMN));
+				del.setStart(resultSet.getString(STARTCOLUMN));
+				del.setStop(resultSet.getString(STOPCOLUMN));
 				del.setSource(resultSet.getString(SOURCECOLUMN));
 				del.setTarget(resultSet.getString(TARGETCOLUMN));
-				del.setDueDate(resultSet.getDate(DUEDATECOLUMN));
+				del.setDueDate(resultSet.getString(DUEDATECOLUMN));
 			}
 			
 		} catch (Exception e) {
@@ -107,11 +107,11 @@ public class DeliveryDao extends DBConnector {
 				del.setDelIdentifier(resultSet.getInt(DEL_IDENTIFIERCOLUMN));								
 				del.setVersion(resultSet.getString(VERSIONCOLUMN));				
 				del.setName(resultSet.getString(NAMECOLUMN));				
-				del.setStart(resultSet.getTimestamp(STARTCOLUMN));
-				del.setStop(resultSet.getTimestamp(STOPCOLUMN));
+				del.setStart(resultSet.getString(STARTCOLUMN));
+				del.setStop(resultSet.getString(STOPCOLUMN));
 				del.setSource(resultSet.getString(SOURCECOLUMN));
 				del.setTarget(resultSet.getString(TARGETCOLUMN));
-				del.setDueDate(resultSet.getDate(DUEDATECOLUMN));
+				del.setDueDate(resultSet.getString(DUEDATECOLUMN));
 
 				delObjs.add(del);
 			}
@@ -158,11 +158,11 @@ public class DeliveryDao extends DBConnector {
 				del.setDelIdentifier(resultSet.getInt(DEL_IDENTIFIERCOLUMN));								
 				del.setVersion(resultSet.getString(VERSIONCOLUMN));				
 				del.setName(resultSet.getString(NAMECOLUMN));				
-				del.setStart(resultSet.getTimestamp(STARTCOLUMN));
-				del.setStop(resultSet.getTimestamp(STOPCOLUMN));
+				del.setStart(resultSet.getString(STARTCOLUMN));
+				del.setStop(resultSet.getString(STOPCOLUMN));
 				del.setSource(resultSet.getString(SOURCECOLUMN));
 				del.setTarget(resultSet.getString(TARGETCOLUMN));
-				del.setDueDate(resultSet.getDate(DUEDATECOLUMN));
+				del.setDueDate(resultSet.getString(DUEDATECOLUMN));
 
 				delObjs.add(del);
 			}
@@ -209,11 +209,11 @@ public class DeliveryDao extends DBConnector {
 				del.setDelIdentifier(resultSet.getInt(DEL_IDENTIFIERCOLUMN));								
 				del.setVersion(resultSet.getString(VERSIONCOLUMN));				
 				del.setName(resultSet.getString(NAMECOLUMN));				
-				del.setStart(resultSet.getTimestamp(STARTCOLUMN));
-				del.setStop(resultSet.getTimestamp(STOPCOLUMN));
+				del.setStart(resultSet.getString(STARTCOLUMN));
+				del.setStop(resultSet.getString(STOPCOLUMN));
 				del.setSource(resultSet.getString(SOURCECOLUMN));
 				del.setTarget(resultSet.getString(TARGETCOLUMN));
-				del.setDueDate(resultSet.getDate(DUEDATECOLUMN));
+				del.setDueDate(resultSet.getString(DUEDATECOLUMN));
 
 				delObjs.add(del);
 			}
@@ -275,11 +275,11 @@ public class DeliveryDao extends DBConnector {
 			prepareStm.setString(1, del.getLogIdentifier());
 			prepareStm.setString(2, del.getVersion());
 			prepareStm.setString(3, del.getName());
-			prepareStm.setTimestamp(4, del.getStart());
-			prepareStm.setTimestamp(5, del.getStop());
+			prepareStm.setString(4, del.getStart());
+			prepareStm.setString(5, del.getStop());
 			prepareStm.setString(6, del.getSource());
 			prepareStm.setString(7, del.getTarget());
-			prepareStm.setDate(8, del.getDueDate());
+			prepareStm.setString(8, del.getDueDate());
 			
 			prepareStm.executeUpdate();
 			
@@ -332,11 +332,11 @@ public class DeliveryDao extends DBConnector {
 													+ "WHERE " + DEL_IDENTIFIERCOLUMN + " = ?");
 			
 			prepareStm.setString(1, del.getName());
-			prepareStm.setTimestamp(2, del.getStart());
-			prepareStm.setTimestamp(3, del.getStop());
+			prepareStm.setString(2, del.getStart());
+			prepareStm.setString(3, del.getStop());
 			prepareStm.setString(4, del.getSource());
 			prepareStm.setString(5, del.getTarget());
-			prepareStm.setDate(6, del.getDueDate());
+			prepareStm.setString(6, del.getDueDate());
 			prepareStm.setInt(7, del.getDelIdentifier());
 			
 			prepareStm.executeUpdate();

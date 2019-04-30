@@ -9,8 +9,6 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -30,6 +28,7 @@ import org.json.JSONObject;
 
 import gov.nasa.pds.tracking.tracking.db.CertificationStatus;
 import gov.nasa.pds.tracking.tracking.db.CertificationStatusDao;
+import gov.nasa.pds.tracking.tracking.db.DBConnector;
 
 /**
  * @author danyu dan.yu@jpl.nasa.gov
@@ -42,8 +41,6 @@ public class JSONBasedCertificationStatus {
 
 	private static final String FAILURE_RESULT="Failure";
 	private CertificationStatusDao csD;
-	
-	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	/**
 	 * @return
@@ -74,7 +71,7 @@ public class JSONBasedCertificationStatus {
 		     	
 		     	 jsonCStatus.put(CertificationStatusDao.LOGIDENTIFIERCOLUMN, cs.getLogIdentifier());
 		     	 jsonCStatus.put(CertificationStatusDao.VERSIONCOLUMN, cs.getVersion());
-		     	 jsonCStatus.put(CertificationStatusDao.DATECOLUMN, df.format(cs.getDate()));
+		     	 jsonCStatus.put(CertificationStatusDao.DATECOLUMN, cs.getDate());
 		     	 jsonCStatus.put(CertificationStatusDao.STATUSCOLUMN, cs.getStatus());
 		     	 jsonCStatus.put(CertificationStatusDao.EMAILCOLUMN, cs.getEmail());		         
 		     	 jsonCStatus.put(CertificationStatusDao.COMMENTCOLUMN, cs.getComment() != null ? cs.getComment() : "");
@@ -136,7 +133,7 @@ public class JSONBasedCertificationStatus {
 		     	
 		     	 jsonCStatus.put(CertificationStatusDao.LOGIDENTIFIERCOLUMN, cs.getLogIdentifier());
 		     	 jsonCStatus.put(CertificationStatusDao.VERSIONCOLUMN, cs.getVersion());
-		     	 jsonCStatus.put(CertificationStatusDao.DATECOLUMN, df.format(cs.getDate()));
+		     	 jsonCStatus.put(CertificationStatusDao.DATECOLUMN, cs.getDate());
 		     	 jsonCStatus.put(CertificationStatusDao.STATUSCOLUMN, cs.getStatus());
 		     	 jsonCStatus.put(CertificationStatusDao.EMAILCOLUMN, cs.getEmail());		         
 		     	 jsonCStatus.put(CertificationStatusDao.COMMENTCOLUMN, cs.getComment() != null ? cs.getComment() : "");
@@ -169,14 +166,15 @@ public class JSONBasedCertificationStatus {
 		JSONObject message = new JSONObject();
 		try {
 			csD = new CertificationStatusDao();
-
-			CertificationStatus cs = new CertificationStatus(logicalIdentifier, ver, new Timestamp(new Date().getTime()), status, email, comment);
+			
+			String currentTime = DBConnector.ISO_BASIC.format(new Date());
+			CertificationStatus cs = new CertificationStatus(logicalIdentifier, ver, currentTime, status, email, comment);
 			int result = csD.insertCertificationStatus(cs);
 			
 			if(result == 1){
 				message.put(CertificationStatusDao.LOGIDENTIFIERCOLUMN, cs.getLogIdentifier());
 				message.put(CertificationStatusDao.VERSIONCOLUMN, cs.getVersion());
-				message.put(CertificationStatusDao.DATECOLUMN, df.format(cs.getDate()));
+				message.put(CertificationStatusDao.DATECOLUMN, cs.getDate());
 				message.put(CertificationStatusDao.STATUSCOLUMN, cs.getStatus());
 				message.put(CertificationStatusDao.EMAILCOLUMN, cs.getEmail());		         
 				message.put(CertificationStatusDao.COMMENTCOLUMN, cs.getComment() != null ? cs.getComment() : "");

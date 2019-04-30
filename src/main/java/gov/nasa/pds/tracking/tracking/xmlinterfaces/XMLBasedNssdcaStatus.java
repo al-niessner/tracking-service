@@ -10,8 +10,6 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +35,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import gov.nasa.pds.tracking.tracking.db.DBConnector;
 import gov.nasa.pds.tracking.tracking.db.NssdcaStatus;
 import gov.nasa.pds.tracking.tracking.db.NssdcaStatusDao;;
 
@@ -48,7 +47,6 @@ import gov.nasa.pds.tracking.tracking.db.NssdcaStatusDao;;
 public class XMLBasedNssdcaStatus {
 	
 	public static Logger logger = Logger.getLogger(XMLBasedNssdcaStatus.class);
-	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
 	 * @return
@@ -96,7 +94,7 @@ public class XMLBasedNssdcaStatus {
 		            subRootElement.appendChild(doiElement);
 		            
 		            Element dateElement = doc.createElement(NssdcaStatusDao.DATECOLUMN);
-		            dateElement.appendChild(doc.createTextNode(df.format(ns.getDate())));
+		            dateElement.appendChild(doc.createTextNode(ns.getDate()));
 		            subRootElement.appendChild(dateElement);
 		            		            
 		            Element emailElement = doc.createElement(NssdcaStatusDao.EMAILCOLUMN);
@@ -193,7 +191,7 @@ public class XMLBasedNssdcaStatus {
 		            subRootElement.appendChild(doiElement);
 		            
 		            Element dateElement = doc.createElement(NssdcaStatusDao.DATECOLUMN);
-		            dateElement.appendChild(doc.createTextNode(df.format(ns.getDate())));
+		            dateElement.appendChild(doc.createTextNode(ns.getDate()));
 		            subRootElement.appendChild(dateElement);
 		            		            
 		            Element emailElement = doc.createElement(NssdcaStatusDao.EMAILCOLUMN);
@@ -256,8 +254,9 @@ public class XMLBasedNssdcaStatus {
 		
 		try {
 			nsD = new NssdcaStatusDao();
-
-			NssdcaStatus ns = new NssdcaStatus(logicalIdentifier, ver, new Timestamp(new Date().getTime()), nssdca, email, comment);
+			
+			String currentTime = DBConnector.ISO_BASIC.format(new Date());
+			NssdcaStatus ns = new NssdcaStatus(logicalIdentifier, ver, currentTime, nssdca, email, comment);
 			int result = nsD.insertNssdcaStatus(ns);
 			
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -283,7 +282,7 @@ public class XMLBasedNssdcaStatus {
 	            subRootElement.appendChild(doiElement);
 	            
 	            Element dateElement = doc.createElement(NssdcaStatusDao.DATECOLUMN);
-	            dateElement.appendChild(doc.createTextNode(df.format(ns.getDate())));
+	            dateElement.appendChild(doc.createTextNode(ns.getDate()));
 	            subRootElement.appendChild(dateElement);
 	            		            
 	            Element emailElement = doc.createElement(NssdcaStatusDao.EMAILCOLUMN);

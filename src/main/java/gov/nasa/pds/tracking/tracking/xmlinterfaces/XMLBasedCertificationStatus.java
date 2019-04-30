@@ -8,8 +8,6 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -38,6 +36,7 @@ import org.w3c.dom.Element;
 
 import gov.nasa.pds.tracking.tracking.db.CertificationStatus;
 import gov.nasa.pds.tracking.tracking.db.CertificationStatusDao;
+import gov.nasa.pds.tracking.tracking.db.DBConnector;
 
 /**
  * @author danyu dan.yu@jpl.nasa.gov
@@ -47,8 +46,7 @@ import gov.nasa.pds.tracking.tracking.db.CertificationStatusDao;
 public class XMLBasedCertificationStatus {
 	
 	public static Logger logger = Logger.getLogger(XMLBasedCertificationStatus.class);
-	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+
 	@GET
     @Produces("application/xml")
     public Response defaultArchiveStatus() {
@@ -89,7 +87,7 @@ public class XMLBasedCertificationStatus {
 		            subRootElement.appendChild(verElement);
 		            
 		            Element dateElement = doc.createElement(CertificationStatusDao.DATECOLUMN);
-		            dateElement.appendChild(doc.createTextNode(df.format(as.getDate())));
+		            dateElement.appendChild(doc.createTextNode(as.getDate()));
 		            subRootElement.appendChild(dateElement);
 		            
 		            Element statusElement = doc.createElement(CertificationStatusDao.STATUSCOLUMN);
@@ -187,7 +185,7 @@ public class XMLBasedCertificationStatus {
 		            subRootElement.appendChild(verElement);
 		            
 		            Element dateElement = doc.createElement(CertificationStatusDao.DATECOLUMN);
-		            dateElement.appendChild(doc.createTextNode(df.format(as.getDate())));
+		            dateElement.appendChild(doc.createTextNode(as.getDate()));
 		            subRootElement.appendChild(dateElement);
 		            
 		            Element statusElement = doc.createElement(CertificationStatusDao.STATUSCOLUMN);
@@ -250,8 +248,9 @@ public class XMLBasedCertificationStatus {
 		
 		try {
 			csD = new CertificationStatusDao();
-			
-			CertificationStatus cs = new CertificationStatus(logicalIdentifier, ver, new Timestamp(new Date().getTime()), status, email, comment);
+
+			String currentTime = DBConnector.ISO_BASIC.format(new Date());
+			CertificationStatus cs = new CertificationStatus(logicalIdentifier, ver, currentTime, status, email, comment);
 			
 			int result = csD.insertCertificationStatus(cs);
 			
@@ -274,7 +273,7 @@ public class XMLBasedCertificationStatus {
 	            subRootElement.appendChild(verElement);
 	            
 	            Element dateElement = doc.createElement(CertificationStatusDao.DATECOLUMN);
-	            dateElement.appendChild(doc.createTextNode(df.format(cs.getDate())));
+	            dateElement.appendChild(doc.createTextNode(cs.getDate()));
 	            subRootElement.appendChild(dateElement);
 	            
 	            Element statusElement = doc.createElement(CertificationStatusDao.STATUSCOLUMN);

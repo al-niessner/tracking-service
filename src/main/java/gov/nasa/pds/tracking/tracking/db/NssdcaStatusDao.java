@@ -49,7 +49,7 @@ public class NssdcaStatusDao extends DBConnector {
 													+ COMMENTCOLUMN + ") VALUES (?, ?, ?, ?, ?, ?)");
 			prepareStm.setString(1, nStatus.getLogIdentifier());
 			prepareStm.setString(2, nStatus.getVersion());
-			prepareStm.setTimestamp(3, nStatus.getDate());
+			prepareStm.setString(3, nStatus.getDate());
 			prepareStm.setString(4, nStatus.getNssdca());
 			prepareStm.setString(5, nStatus.getEmail());
 			prepareStm.setString(6, nStatus.getComment());
@@ -111,7 +111,7 @@ public class NssdcaStatusDao extends DBConnector {
 				nssdcaStatus.setNssdca(resultSet.getString(NSSDCACOLUMN));
 				nssdcaStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				nssdcaStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				nssdcaStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
+				nssdcaStatus.setDate(resultSet.getString(DATECOLUMN));
 				
 				nssdcaStatuses.add(nssdcaStatus);
 			}	
@@ -153,7 +153,7 @@ public class NssdcaStatusDao extends DBConnector {
 				nStatus.setNssdca(resultSet.getString(NSSDCACOLUMN));
 				nStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				nStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				nStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
+				nStatus.setDate(resultSet.getString(DATECOLUMN));
 
 				nStatuses.add(nStatus);
 			}
@@ -195,7 +195,7 @@ public class NssdcaStatusDao extends DBConnector {
 				nStatus.setNssdca(resultSet.getString(NSSDCACOLUMN));
 				nStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				nStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				nStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
+				nStatus.setDate(resultSet.getString(DATECOLUMN));
 
 				nStatuses.add(nStatus);
 			}

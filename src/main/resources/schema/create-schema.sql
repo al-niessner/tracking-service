@@ -21,7 +21,7 @@
 create table archive_status (
   logical_identifier varchar(255) not null,
   version_id varchar(255) not null,
-  status_date_time datetime not null,
+  status_date_time varchar(24) not null,
   status varchar(255) not null,
   electronic_mail_address varchar(255) not null,
   comment varchar(1024)
@@ -30,7 +30,7 @@ create table archive_status (
 create table certification_status (
   logical_identifier varchar(255) not null,
   version_id varchar(255) not null,
-  status_date_time datetime not null,
+  status_date_time varchar(24) not null,
   status varchar(255) not null,
   electronic_mail_address varchar(255) not null,
   comment varchar(1024)
@@ -41,11 +41,11 @@ create table delivery (
   logical_identifier varchar(255) not null,
   version_id varchar(255) not null,
   name varchar(255) not null,
-  start_date_time datetime not null,
-  stop_date_time datetime not null,
+  start_date_time varchar(24) not null,
+  stop_date_time varchar(24) not null,
   source varchar(255) not null,
   target varchar(255) not null,
-  due_date date not null,
+  due_date varchar(24) not null,
   primary key (delivery_identifier)
 ) ENGINE=InnoDB;
 
@@ -53,7 +53,7 @@ create table doi (
   logical_identifier varchar(255) not null,
   version_id varchar(255) not null,
   doi varchar(255) not null,
-  registration_date datetime not null,
+  registration_date varchar(24) not null,
   site_url varchar(255) not null,
   electronic_mail_address varchar(255) not null,
   comment varchar(1024),
@@ -84,7 +84,7 @@ create table node_reference (
 create table nssdca_status (
   logical_identifier varchar(255) not null,
   version_id varchar(255) not null,
-  status_date_time datetime not null,
+  status_date_time varchar(24) not null,
   nssdca_identifier varchar(255) not null,
   electronic_mail_address varchar(255) not null,
   comment varchar(1024),
@@ -103,8 +103,7 @@ create table product (
 create table releases (
   logical_identifier varchar(255) not null,
   version_id varchar(255) not null,
-  release_date_time datetime not null,
-  announcement_date_time datetime not null,
+  release_date_time varchar(24) not null,
   name varchar(255) not null,
   description varchar(255) not null,
   electronic_mail_address varchar(255) not null,
@@ -118,14 +117,14 @@ create table role (
 
 create table submission (
   delivery_identifier int not null,
-  submission_date_time datetime not null,
+  submission_date_time varchar(24) not null,
   primary key (delivery_identifier, submission_date_time)
 ) ENGINE=InnoDB;
 
 create table submission_status (
   delivery_identifier int not null,
-  submission_date_time datetime not null,
-  status_date_time datetime not null,
+  submission_date_time varchar(24) not null,
+  status_date_time varchar(24) not null,
   status varchar(255) not null,
   electronic_mail_address varchar(255) not null,
   comment varchar(1024)
