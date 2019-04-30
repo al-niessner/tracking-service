@@ -1,8 +1,6 @@
 package gov.nasa.pds.tracking.tracking.db;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-
 import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.log4j.Logger;
 
@@ -19,12 +17,12 @@ public class ArchiveStatus implements Serializable  {
 
 	private String logIdentifier = null;
 	private String version = null;
-	private Timestamp date = null;
+	private String date = null;
 	private String status = null;
 	private String email = null;
 	private String comment = null;
 	
-	public ArchiveStatus(String logIdenf, String ver, Timestamp date, String stat, String email, String comm) {
+	public ArchiveStatus(String logIdenf, String ver, String date, String stat, String email, String comm) {
 		this.logIdentifier = logIdenf;
 		this.version = ver;
 		this.date = date;
@@ -65,7 +63,7 @@ public class ArchiveStatus implements Serializable  {
 	/**
 	 * @return the date
 	 */
-	public Timestamp getDate() {
+	public String getDate() {
 		return date;
 	}
 
@@ -73,7 +71,7 @@ public class ArchiveStatus implements Serializable  {
 	 * @param date
 	 *            the date to set
 	 */
-	public void setDate(Timestamp date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

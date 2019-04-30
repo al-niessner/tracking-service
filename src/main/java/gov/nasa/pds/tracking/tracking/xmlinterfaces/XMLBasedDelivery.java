@@ -9,10 +9,7 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,9 +45,6 @@ import gov.nasa.pds.tracking.tracking.db.DeliveryDao;
 public class XMLBasedDelivery {
 	
 	public static Logger logger = Logger.getLogger(XMLBasedDelivery.class);
-	
-	private SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
 	DeliveryDao dD;
 	
@@ -104,11 +98,11 @@ public class XMLBasedDelivery {
 		            subRootElement.appendChild(nameElement);
 		            
 		            Element startElement = doc.createElement(DeliveryDao.STARTCOLUMN);
-		            startElement.appendChild(doc.createTextNode(dtf.format(d.getStart())));
+		            startElement.appendChild(doc.createTextNode(d.getStart()));
 		            subRootElement.appendChild(startElement);
 		            
 		            Element stopElement = doc.createElement(DeliveryDao.STOPCOLUMN);
-		            stopElement.appendChild(doc.createTextNode(dtf.format(d.getStop())));
+		            stopElement.appendChild(doc.createTextNode(d.getStop()));
 		            subRootElement.appendChild(stopElement);
 		            
 		            Element srcElement = doc.createElement(DeliveryDao.SOURCECOLUMN);
@@ -120,7 +114,7 @@ public class XMLBasedDelivery {
 		            subRootElement.appendChild(targetElement);
 		            
 		            Element dueDateElement = doc.createElement(DeliveryDao.DUEDATECOLUMN);
-		            dueDateElement.appendChild(doc.createTextNode(df.format(d.getDueDate())));
+		            dueDateElement.appendChild(doc.createTextNode(d.getDueDate()));
 		            subRootElement.appendChild(dueDateElement);
 		            
 		            rootElement.appendChild(subRootElement);
@@ -212,11 +206,11 @@ public class XMLBasedDelivery {
 		            subRootElement.appendChild(nameElement);
 		            
 		            Element startElement = doc.createElement(DeliveryDao.STARTCOLUMN);
-		            startElement.appendChild(doc.createTextNode(dtf.format(d.getStart())));
+		            startElement.appendChild(doc.createTextNode(d.getStart()));
 		            subRootElement.appendChild(startElement);
 		            
 		            Element stopElement = doc.createElement(DeliveryDao.STOPCOLUMN);
-		            stopElement.appendChild(doc.createTextNode(dtf.format(d.getStop())));
+		            stopElement.appendChild(doc.createTextNode(d.getStop()));
 		            subRootElement.appendChild(stopElement);
 		            
 		            Element srcElement = doc.createElement(DeliveryDao.SOURCECOLUMN);
@@ -228,7 +222,7 @@ public class XMLBasedDelivery {
 		            subRootElement.appendChild(targetElement);
 		            
 		            Element dueDateElement = doc.createElement(DeliveryDao.DUEDATECOLUMN);
-		            dueDateElement.appendChild(doc.createTextNode(df.format(d.getDueDate())));
+		            dueDateElement.appendChild(doc.createTextNode(d.getDueDate()));
 		            subRootElement.appendChild(dueDateElement);
 		            
 		            rootElement.appendChild(subRootElement);
@@ -292,8 +286,8 @@ public class XMLBasedDelivery {
             Document doc = delBuilder.newDocument();
             Element rootElement = doc.createElement("delivery");
             
-            Delivery del = new Delivery(logIdentifier, -1, ver, name, Timestamp.valueOf(startTime), Timestamp.valueOf(stopTime),
-					src, tgt, Date.valueOf(dueD));
+            Delivery del = new Delivery(logIdentifier, -1, ver, name, startTime, stopTime,
+					src, tgt, dueD);
 			int result = dD.insertDelivery(del);
 			
 			if(result > 0){
@@ -314,11 +308,11 @@ public class XMLBasedDelivery {
 	            rootElement.appendChild(nameElement);
 	            
 	            Element startElement = doc.createElement(DeliveryDao.STARTCOLUMN);
-	            startElement.appendChild(doc.createTextNode(dtf.format(del.getStart())));
+	            startElement.appendChild(doc.createTextNode(del.getStart()));
 	            rootElement.appendChild(startElement);
 	            
 	            Element stopElement = doc.createElement(DeliveryDao.STOPCOLUMN);
-	            stopElement.appendChild(doc.createTextNode(dtf.format(del.getStop())));
+	            stopElement.appendChild(doc.createTextNode(del.getStop()));
 	            rootElement.appendChild(stopElement);
 	            
 	            Element srcElement = doc.createElement(DeliveryDao.SOURCECOLUMN);
@@ -330,7 +324,7 @@ public class XMLBasedDelivery {
 	            rootElement.appendChild(targetElement);
 	            
 	            Element dueDateElement = doc.createElement(DeliveryDao.DUEDATECOLUMN);
-	            dueDateElement.appendChild(doc.createTextNode(df.format(del.getDueDate())));
+	            dueDateElement.appendChild(doc.createTextNode(del.getDueDate()));
 	            rootElement.appendChild(dueDateElement);
 		    }else{
 			
@@ -391,8 +385,8 @@ public class XMLBasedDelivery {
             Document doc = delBuilder.newDocument();
             Element rootElement = doc.createElement("delivery");
             
-            Delivery del = new Delivery(logIdentifier, (new Integer(delIdentifier).intValue()), ver, name, Timestamp.valueOf(startTime), Timestamp.valueOf(stopTime),
-					src, tgt, Date.valueOf(dueD));
+            Delivery del = new Delivery(logIdentifier, (new Integer(delIdentifier).intValue()), ver, name, startTime, stopTime,
+					src, tgt, dueD);
 			Delivery updatedDel = dD.updateDelivery(del);
 			
 			if(updatedDel != null){
@@ -413,11 +407,11 @@ public class XMLBasedDelivery {
 	            rootElement.appendChild(nameElement);
 	            
 	            Element startElement = doc.createElement(DeliveryDao.STARTCOLUMN);
-	            startElement.appendChild(doc.createTextNode(dtf.format(updatedDel.getStart())));
+	            startElement.appendChild(doc.createTextNode(updatedDel.getStart()));
 	            rootElement.appendChild(startElement);
 	            
 	            Element stopElement = doc.createElement(DeliveryDao.STOPCOLUMN);
-	            stopElement.appendChild(doc.createTextNode(dtf.format(updatedDel.getStop())));
+	            stopElement.appendChild(doc.createTextNode(updatedDel.getStop()));
 	            rootElement.appendChild(stopElement);
 	            
 	            Element srcElement = doc.createElement(DeliveryDao.SOURCECOLUMN);
@@ -429,7 +423,7 @@ public class XMLBasedDelivery {
 	            rootElement.appendChild(targetElement);
 	            
 	            Element dueDateElement = doc.createElement(DeliveryDao.DUEDATECOLUMN);
-	            dueDateElement.appendChild(doc.createTextNode(df.format(updatedDel.getDueDate())));
+	            dueDateElement.appendChild(doc.createTextNode(updatedDel.getDueDate()));
 	            rootElement.appendChild(dueDateElement);
 		    }else{
 			

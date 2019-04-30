@@ -1,9 +1,7 @@
 package gov.nasa.pds.tracking.tracking;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -634,7 +632,7 @@ public class Mytest {
 		SubmissionStatus submS;
 		try {
 			submS = new SubmissionStatus();
-			submS.insertSubmissionStatus(deliveryIdentifier, Timestamp.valueOf(subDateTime), Timestamp.valueOf(statusDateTime), status, email, comment);
+			submS.insertSubmissionStatus(deliveryIdentifier, subDateTime, statusDateTime, status, email, comment);
 		} catch (ClassNotFoundException | SQLException e) {
 			
 			e.printStackTrace();
@@ -726,7 +724,7 @@ public class Mytest {
 		Delivery del;
 		try {
 			delD = new DeliveryDao();
-			del = new Delivery(null, delIdentifier, null, name, Timestamp.valueOf(startDateTime), Timestamp.valueOf(stopDateTime), source, target, Date.valueOf(dueDate));
+			del = new Delivery(null, delIdentifier, null, name, startDateTime, stopDateTime, source, target, dueDate);
 			delD.updateDelivery(del);
 		} catch (ClassNotFoundException | SQLException e) {
 			
@@ -742,8 +740,8 @@ public class Mytest {
 		int del_identifier = -1;
 		try {
 			delD = new DeliveryDao();
-			del = new Delivery(logicalIdentifier, -1, versionId, name, Timestamp.valueOf(startDateTime), Timestamp.valueOf(stopDateTime),
-					source, target, Date.valueOf(dueDate));
+			del = new Delivery(logicalIdentifier, -1, versionId, name, startDateTime, stopDateTime,
+					source, target, dueDate);
 			del_identifier = delD.insertDelivery(del);
 		} catch (ClassNotFoundException | SQLException e) {
 			

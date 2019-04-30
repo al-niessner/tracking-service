@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,8 +37,7 @@ import gov.nasa.pds.tracking.tracking.db.SubmissionStatus;;
 public class XMLBasedSubmissionStatus {
 	
 	public static Logger logger = Logger.getLogger(XMLBasedSubmissionStatus.class);
-	private SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+
 	@GET
     @Produces("application/xml")
     public Response defaultSubmissionstatus() {
@@ -73,11 +71,11 @@ public class XMLBasedSubmissionStatus {
 		            subRootElement.appendChild(idElement);
 		            
 		            Element dateElement = doc.createElement(SubmissionStatus.SUBMISSIONDATECOLUME);
-		            dateElement.appendChild(doc.createTextNode(dtf.format(s.getSubmissionDate())));
+		            dateElement.appendChild(doc.createTextNode(s.getSubmissionDate()));
 		            subRootElement.appendChild(dateElement);
 		            
 		            Element statusDateElement = doc.createElement(SubmissionStatus.STATUSDATECOLUME);
-		            statusDateElement.appendChild(doc.createTextNode(dtf.format(s.getStatusDate())));
+		            statusDateElement.appendChild(doc.createTextNode(s.getStatusDate()));
 		            subRootElement.appendChild(statusDateElement);
 		            
 		            Element statusElement = doc.createElement(SubmissionStatus.STATUSCOLUME);
@@ -165,11 +163,11 @@ public class XMLBasedSubmissionStatus {
 		            subRootElement.appendChild(idElement);
 		            
 		            Element dateElement = doc.createElement(SubmissionStatus.SUBMISSIONDATECOLUME);
-		            dateElement.appendChild(doc.createTextNode(dtf.format(s.getSubmissionDate())));
+		            dateElement.appendChild(doc.createTextNode(s.getSubmissionDate()));
 		            subRootElement.appendChild(dateElement);
 		            
 		            Element statusDateElement = doc.createElement(SubmissionStatus.STATUSDATECOLUME);
-		            statusDateElement.appendChild(doc.createTextNode(dtf.format(s.getStatusDate())));
+		            statusDateElement.appendChild(doc.createTextNode(s.getStatusDate()));
 		            subRootElement.appendChild(statusDateElement);
 		            
 		            Element statusElement = doc.createElement(SubmissionStatus.STATUSCOLUME);

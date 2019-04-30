@@ -69,7 +69,7 @@ public class ArchiveStatusDao extends DBConnector {
 				archStatus.setStatus(resultSet.getString(STATUSCOLUMN));
 				archStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				archStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				archStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
+				archStatus.setDate(resultSet.getString(DATECOLUMN));
 
 				archStatuses.add(archStatus);
 			}
@@ -114,7 +114,7 @@ public class ArchiveStatusDao extends DBConnector {
 				archStatus.setStatus(resultSet.getString(STATUSCOLUMN));
 				archStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				archStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				archStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
+				archStatus.setDate(resultSet.getString(DATECOLUMN));
 
 				archStatuses.add(archStatus);
 			}
@@ -159,7 +159,7 @@ public class ArchiveStatusDao extends DBConnector {
 				archStatus.setStatus(resultSet.getString(STATUSCOLUMN));
 				archStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				archStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				archStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
+				archStatus.setDate(resultSet.getString(DATECOLUMN));
 			}	
 			else{
 				logger.info("Can not find any Archive Status!");
@@ -204,7 +204,7 @@ public class ArchiveStatusDao extends DBConnector {
 				archStatus.setStatus(resultSet.getString(STATUSCOLUMN));
 				archStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				archStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				archStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
+				archStatus.setDate(resultSet.getString(DATECOLUMN));
 				
 				archStatuses.add(archStatus);
 			}	
@@ -240,7 +240,7 @@ public class ArchiveStatusDao extends DBConnector {
 													+ COMMENTCOLUMN + ") VALUES (?, ?, ?, ?, ?, ?)");
 			prepareStm.setString(1, aStatus.getLogIdentifier());
 			prepareStm.setString(2, aStatus.getVersion());
-			prepareStm.setTimestamp(3, aStatus.getDate());
+			prepareStm.setString(3, aStatus.getDate());
 			prepareStm.setString(4, aStatus.getStatus());
 			prepareStm.setString(5, aStatus.getEmail());
 			prepareStm.setString(6, aStatus.getComment());

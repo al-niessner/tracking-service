@@ -8,8 +8,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -38,6 +37,7 @@ import org.w3c.dom.Element;
 
 import gov.nasa.pds.tracking.tracking.db.ArchiveStatus;
 import gov.nasa.pds.tracking.tracking.db.ArchiveStatusDao;
+import gov.nasa.pds.tracking.tracking.db.DBConnector;
 
 /**
  * @author danyu dan.yu@jpl.nasa.gov
@@ -47,8 +47,7 @@ import gov.nasa.pds.tracking.tracking.db.ArchiveStatusDao;
 public class XMLBasedArchiveStatus {
 	
 	public static Logger logger = Logger.getLogger(XMLBasedArchiveStatus.class);
-	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+
 	@GET
     @Produces("application/xml")
     public Response defaultArchiveStatus() {
@@ -89,7 +88,7 @@ public class XMLBasedArchiveStatus {
 		            subRootElement.appendChild(verElement);
 		            
 		            Element dateElement = doc.createElement(ArchiveStatusDao.DATECOLUMN);
-		            dateElement.appendChild(doc.createTextNode(df.format(as.getDate())));
+		            dateElement.appendChild(doc.createTextNode(as.getDate()));
 		            subRootElement.appendChild(dateElement);
 		            
 		            Element statusElement = doc.createElement(ArchiveStatusDao.STATUSCOLUMN);
@@ -187,7 +186,7 @@ public class XMLBasedArchiveStatus {
 		            subRootElement.appendChild(verElement);
 		            
 		            Element dateElement = doc.createElement(ArchiveStatusDao.DATECOLUMN);
-		            dateElement.appendChild(doc.createTextNode(df.format(as.getDate())));
+		            dateElement.appendChild(doc.createTextNode(as.getDate()));
 		            subRootElement.appendChild(dateElement);
 		            
 		            Element statusElement = doc.createElement(ArchiveStatusDao.STATUSCOLUMN);
@@ -251,7 +250,8 @@ public class XMLBasedArchiveStatus {
 		try {
 			asD = new ArchiveStatusDao();
 
-			ArchiveStatus as = new ArchiveStatus(logicalIdentifier, ver, new Timestamp(new Date().getTime()), status, email, comment);
+			String currentTime = DBConnector.ISO_BASIC.format(new Date());
+			ArchiveStatus as = new ArchiveStatus(logicalIdentifier, ver, currentTime, status, email, comment);
 			
 			int result = asD.insertArchiveStatus(as);
 			
@@ -274,7 +274,7 @@ public class XMLBasedArchiveStatus {
 	            subRootElement.appendChild(verElement);
 	            
 	            Element dateElement = doc.createElement(ArchiveStatusDao.DATECOLUMN);
-	            dateElement.appendChild(doc.createTextNode(df.format(as.getDate())));
+	            dateElement.appendChild(doc.createTextNode(as.getDate()));
 	            subRootElement.appendChild(dateElement);
 	            
 	            Element statusElement = doc.createElement(ArchiveStatusDao.STATUSCOLUMN);

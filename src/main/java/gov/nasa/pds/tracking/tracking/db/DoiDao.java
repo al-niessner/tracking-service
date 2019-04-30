@@ -61,7 +61,7 @@ public class DoiDao extends DBConnector {
 			prepareStm.setString(1, doi.getLog_identifier());
 			prepareStm.setString(2, doi.getVersion());
 			prepareStm.setString(3, doi.getDoi());
-			prepareStm.setTimestamp(4, doi.getDate());
+			prepareStm.setString(4, doi.getDate());
 			prepareStm.setString(5, doi.getUrl());
 			prepareStm.setString(6, doi.getEmail());
 			prepareStm.setString(7, doi.getComment());
@@ -168,7 +168,7 @@ public class DoiDao extends DBConnector {
 				doi.setLog_identifier(resultSet.getString(LOG_IDENTIFIERCOLUME));
 				doi.setVersion(resultSet.getString(VERSIONCOLUME));
 				doi.setDoi(resultSet.getString(DOICOLUME));
-				doi.setDate(resultSet.getTimestamp(DATECOLUME));
+				doi.setDate(resultSet.getString(DATECOLUME));
 				doi.setUrl(resultSet.getString(URLCOLUME));
 				doi.setEmail(resultSet.getString(EMAILCOLUME));
 				doi.setComment(resultSet.getString(COMMENTCOLUME));
@@ -211,7 +211,7 @@ public class DoiDao extends DBConnector {
 				doi.setLog_identifier(resultSet.getString(LOG_IDENTIFIERCOLUME));
 				doi.setVersion(resultSet.getString(VERSIONCOLUME));
 				doi.setDoi(resultSet.getString(DOICOLUME));
-				doi.setDate(resultSet.getTimestamp(DATECOLUME));
+				doi.setDate(resultSet.getString(DATECOLUME));
 				doi.setUrl(resultSet.getString(URLCOLUME));
 				doi.setEmail(resultSet.getString(EMAILCOLUME));
 				doi.setComment(resultSet.getString(COMMENTCOLUME));
