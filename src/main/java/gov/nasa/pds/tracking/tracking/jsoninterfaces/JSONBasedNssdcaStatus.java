@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +27,6 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import gov.nasa.pds.tracking.tracking.db.DBConnector;
 import gov.nasa.pds.tracking.tracking.db.NssdcaStatus;
 import gov.nasa.pds.tracking.tracking.db.NssdcaStatusDao;
 
@@ -40,6 +41,8 @@ public class JSONBasedNssdcaStatus {
 	
 	private static final String FAILURE_RESULT="Failure";
 	private NssdcaStatusDao nsD;
+	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
 	/**
 	 * @return
 	 * @throws JSONException
@@ -69,7 +72,7 @@ public class JSONBasedNssdcaStatus {
 		     	
 		         jsonNStatus.put(NssdcaStatusDao.LOGIDENTIFIERCOLUMN, ns.getLogIdentifier());
 		         jsonNStatus.put(NssdcaStatusDao.VERSIONCOLUMN, ns.getVersion());
-		         jsonNStatus.put(NssdcaStatusDao.DATECOLUMN, ns.getDate());
+		         jsonNStatus.put(NssdcaStatusDao.DATECOLUMN, df.format(ns.getDate()));
 		         jsonNStatus.put(NssdcaStatusDao.NSSDCACOLUMN, ns.getNssdca());
 		         jsonNStatus.put(NssdcaStatusDao.EMAILCOLUMN, ns.getEmail());		         
 		         jsonNStatus.put(NssdcaStatusDao.COMMENTCOLUMN, ns.getComment() != null ? ns.getComment() : "");
@@ -120,7 +123,7 @@ public class JSONBasedNssdcaStatus {
 		     	
 		         jsonNStatus.put(NssdcaStatusDao.LOGIDENTIFIERCOLUMN, ns.getLogIdentifier());
 		         jsonNStatus.put(NssdcaStatusDao.VERSIONCOLUMN, ns.getVersion());
-		         jsonNStatus.put(NssdcaStatusDao.DATECOLUMN, ns.getDate());
+		         jsonNStatus.put(NssdcaStatusDao.DATECOLUMN, df.format(ns.getDate()));
 		         jsonNStatus.put(NssdcaStatusDao.NSSDCACOLUMN, ns.getNssdca());
 		         jsonNStatus.put(NssdcaStatusDao.EMAILCOLUMN, ns.getEmail());		         
 		         jsonNStatus.put(NssdcaStatusDao.COMMENTCOLUMN, ns.getComment() != null ? ns.getComment() : "");
@@ -154,16 +157,15 @@ public class JSONBasedNssdcaStatus {
 		JSONObject message = new JSONObject();
 		try {
 			nsD = new NssdcaStatusDao();
-			
-			String currentTime = DBConnector.ISO_BASIC.format(new Date());
-			NssdcaStatus ns = new NssdcaStatus(logicalIdentifier, ver, currentTime, nssdca, email, comment);
+
+			NssdcaStatus ns = new NssdcaStatus(logicalIdentifier, ver, new Timestamp(new Date().getTime()), nssdca, email, comment);
 			
 			int result = nsD.insertNssdcaStatus(ns);
 			
 			if(result == 1){
 				message.put(NssdcaStatusDao.LOGIDENTIFIERCOLUMN, ns.getLogIdentifier());
 				message.put(NssdcaStatusDao.VERSIONCOLUMN, ns.getVersion());
-				message.put(NssdcaStatusDao.DATECOLUMN, ns.getDate());
+				message.put(NssdcaStatusDao.DATECOLUMN, df.format(ns.getDate()));
 				message.put(NssdcaStatusDao.NSSDCACOLUMN, ns.getNssdca());
 				message.put(NssdcaStatusDao.EMAILCOLUMN, ns.getEmail());		         
 				message.put(NssdcaStatusDao.COMMENTCOLUMN, ns.getComment() != null ? ns.getComment() : "");

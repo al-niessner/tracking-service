@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -32,7 +33,7 @@ public class Submission extends DBConnector {
 	private ResultSet resultSet = null;
 	
 	private int del_identifier = 0;
-	private String submissionDate = null;
+	private Timestamp submissionDate = null;
 
 	/**
 	 * @return the del_identifier
@@ -51,14 +52,14 @@ public class Submission extends DBConnector {
 	/**
 	 * @return the submissionDate
 	 */
-	public String getSubmissionDate() {
+	public Timestamp getSubmissionDate() {
 		return submissionDate;
 	}
 
 	/**
 	 * @param submissionDate, the submissionDate to set
 	 */
-	public void setSubmissionDate(String submissionDate) {
+	public void setSubmissionDate(Timestamp submissionDate) {
 		this.submissionDate = submissionDate;
 	}
 
@@ -83,8 +84,8 @@ public class Submission extends DBConnector {
 		
 		prepareStm = connect.prepareStatement("INSERT INTO " + TABLENAME + " (" + DEL_IDENTIFIERCOLUME + ", " + SUBMISSIONDATECOLUME + ") VALUES (?, ?)");
 		prepareStm.setInt(1, deliveryIdentifier);
-		String currentTime = ISO_BASIC.format(new Date());
-		prepareStm.setString(2, currentTime);
+		Timestamp currentTime = new Timestamp(new Date().getTime());
+		prepareStm.setTimestamp(2, currentTime);
 		
 		prepareStm.executeUpdate();
 		

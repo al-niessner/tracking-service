@@ -4,6 +4,8 @@
 package gov.nasa.pds.tracking.tracking.db;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.log4j.Logger;
 
@@ -16,20 +18,22 @@ public class Releases implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
 
-	public static Logger logger = Logger.getLogger(NssdcaStatus.class);
+	public static Logger logger = Logger.getLogger(Releases.class);
 
 	private String logIdentifier = null;
 	private String version = null;
-	private String date = null;
+	private Timestamp release_date = null;
+	private Timestamp announcement_date = null;
 	private String name = null;
 	private String description = null;
 	private String email = null;
 	private String comment = null;
 	
-	public Releases(String logIdenf, String ver, String date, String name, String desc, String email, String comm){
+	public Releases(String logIdenf, String ver, Timestamp date, Timestamp announceMDate, String name, String desc, String email, String comm){
 		this.logIdentifier = logIdenf;
 		this.version = ver;
-		this.date = date;
+		this.release_date = date;
+		this.announcement_date = announceMDate;
 		this.name = name;
 		this.description = desc;
 		this.email = email;
@@ -63,14 +67,27 @@ public class Releases implements Serializable  {
 	/**
 	 * @return the date
 	 */
-	public String getDate() {
-		return date;
+	public Timestamp getDate() {
+		return release_date;
 	}
 	/**
 	 * @param date, the date to set
 	 */
-	public void setDate(String date) {
-		this.date = date;
+	public void setDate(Timestamp date) {
+		this.release_date = date;
+	}
+	/**
+	 * @return the announcement_date
+	 */
+	public Timestamp getAnnouncement_date() {
+		return announcement_date;
+	}
+
+	/**
+	 * @param announcement_date the announcement_date to set
+	 */
+	public void setAnnouncement_date(Timestamp announcement_date) {
+		this.announcement_date = announcement_date;
 	}
 	/**
 	 * @return the name

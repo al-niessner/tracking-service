@@ -136,7 +136,7 @@ public class ServicesHomePage {
 		          "<form action=\"json/submissionstatus/addstatus\" method=\"POST\">" +
 		          "<table>" +
 		          "<tr><td>Delivery ID: </td><td><input id=\"id\" name=\"Delivery_ID\" /></td></tr>" +
-		          "<tr><td>Submission Time: </td><td><input id=\"submissionDate\" name=\"SubmissionDate\" /> (yyyy-MM-ddTHH:mm:ss)</td></tr>" +
+		          "<tr><td>Submission Time: </td><td><input id=\"submissionDate\" name=\"SubmissionDate\" /> (yyyy-MM-dd HH:mm:ss)</td></tr>" +
 		          "<tr><td>Status: </td><td><input id=\"status\" name=\"Status\" /></td></tr>" +
 		          "<tr><td>Email: </td><td><input id=\"email\" name=\"Email\" /></td></tr>" +
 		          "<tr><td>Comment: </td><td><input id=\"comment\" name=\"Comment\" /></td></tr>" +
@@ -149,7 +149,7 @@ public class ServicesHomePage {
 		          "<form action=\"xml/submissionstatus/addstatus\" method=\"POST\">" +
 		          "<table>" +
 		          "<tr><td>Delivery ID: </td><td><input id=\"id\" name=\"Delivery_ID\" /></td></tr>" +
-		          "<tr><td>Submission Time: </td><td><input id=\"submissionDate\" name=\"SubmissionDate\" /> (yyyy-MM-ddTHH:mm:ss)</td></tr>" +
+		          "<tr><td>Submission Time: </td><td><input id=\"submissionDate\" name=\"SubmissionDate\" /> (yyyy-MM-dd HH:mm:ss)</td></tr>" +
 		          "<tr><td>Status: </td><td><input id=\"status\" name=\"Status\" /></td></tr>" +
 		          "<tr><td>Email: </td><td><input id=\"email\" name=\"Email\" /></td></tr>" +
 		          "<tr><td>Comment: </td><td><input id=\"comment\" name=\"Comment\" /></td></tr>" +
@@ -164,8 +164,8 @@ public class ServicesHomePage {
 		          "<form action=\"json/submissionstatus/update\" method=\"POST\">" +
 		          "<table>" +
 		          "<tr><td>Delivery ID: </td><td><input id=\"id\" name=\"Delivery_ID\" /></td></tr>" +
-		          "<tr><td>Submission Time: </td><td><input id=\"submissionDate\" name=\"SubmissionDate\" /> (yyyy-MM-ddTHH:mm:ss)</td></tr>" +
-		          "<tr><td>Status Time: </td><td><input id=\"statusDate\" name=\"StatusDate\" /> (yyyy-MM-ddTHH:mm:ss)</td></tr>" +
+		          "<tr><td>Submission Time: </td><td><input id=\"submissionDate\" name=\"SubmissionDate\" /> (yyyy-MM-dd HH:mm:ss)</td></tr>" +
+		          "<tr><td>Status Time: </td><td><input id=\"statusDate\" name=\"StatusDate\" /> (yyyy-MM-dd HH:mm:ss)</td></tr>" +
 		          "<tr><td>Status: </td><td><input id=\"status\" name=\"Status\" /></td></tr>" +
 		          "<tr><td>Email: </td><td><input id=\"email\" name=\"Email\" /></td></tr>" +
 		          "<tr><td>Comment: </td><td><input id=\"comment\" name=\"Comment\" /></td></tr>" +
@@ -178,8 +178,8 @@ public class ServicesHomePage {
 		          "<form action=\"xml/submissionstatus/update\" method=\"POST\">" +
 		          "<table>" +
 		          "<tr><td>Delivery ID: </td><td><input id=\"id\" name=\"Delivery_ID\" /></td></tr>" +
-		          "<tr><td>Submission Time: </td><td><input id=\"submissionDate\" name=\"SubmissionDate\" /> (yyyy-MM-ddTHH:mm:ss)</td></tr>" +
-		          "<tr><td>Status Time: </td><td><input id=\"statusDate\" name=\"StatusDate\" /> (yyyy-MM-ddTHH:mm:ss)</td></tr>" +
+		          "<tr><td>Submission Time: </td><td><input id=\"submissionDate\" name=\"SubmissionDate\" /> (yyyy-MM-dd HH:mm:ss)</td></tr>" +
+		          "<tr><td>Status Time: </td><td><input id=\"statusDate\" name=\"StatusDate\" /> (yyyy-MM-dd HH:mm:ss)</td></tr>" +
 		          "<tr><td>Status: </td><td><input id=\"status\" name=\"Status\" /></td></tr>" +
 		          "<tr><td>Email: </td><td><input id=\"email\" name=\"Email\" /></td></tr>" +
 		          "<tr><td>Comment: </td><td><input id=\"comment\" name=\"Comment\" /></td></tr>" +
@@ -424,6 +424,7 @@ public class ServicesHomePage {
 		          "<tr><td>Logical Identifier: </td><td><input id=\"id\" name=\"LogicalIdentifier\" /></td></tr>" +
 		          "<tr><td>Version: </td><td><input id=\"ver\" name=\"Version\" /></td></tr>" +
 		          "<tr><td>Release Date Time: </td><td><input id=\"date\" name=\"Date\" /></td></tr>" +
+		          "<tr><td>Announcement Date Time: </td><td><input id=\"ancmdate\" name=\"Announcement_Date\" /></td></tr>" +
 		          "<tr><td>Name: </td><td><input id=\"name\" name=\"Name\" /></td></tr>" +
 		          "<tr><td>Description: </td><td><input id=\"desc\" name=\"Desc\" /></td></tr>" +
 		          "<tr><td>Email: </td><td><input id=\"email\" name=\"Email\" /></td></tr>" +
@@ -439,6 +440,7 @@ public class ServicesHomePage {
 		          "<tr><td>Logical Identifier: </td><td><input id=\"id\" name=\"LogicalIdentifier\" /></td></tr>" +
 		          "<tr><td>Version: </td><td><input id=\"ver\" name=\"Version\" /></td></tr>" +
 		          "<tr><td>Release Date Time: </td><td><input id=\"date\" name=\"Date\" /></td></tr>" +
+		          "<tr><td>Announcement Date Time: </td><td><input id=\"ancmdate\" name=\"Announcement_Date\" /></td></tr>" +
 		          "<tr><td>Name: </td><td><input id=\"name\" name=\"Name\" /></td></tr>" +
 		          "<tr><td>Description: </td><td><input id=\"desc\" name=\"Desc\" /></td></tr>" +
 		          "<tr><td>Email: </td><td><input id=\"email\" name=\"Email\" /></td></tr>" +
