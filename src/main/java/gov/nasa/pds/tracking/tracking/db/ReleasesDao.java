@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
  */
 public class ReleasesDao extends DBConnector {
 
-	public static Logger logger = Logger.getLogger(NssdcaStatus.class);
+	public static Logger logger = Logger.getLogger(ReleasesDao.class);
 
 	private static final String TABLENAME = "releases";
   	  

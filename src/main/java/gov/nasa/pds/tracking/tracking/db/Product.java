@@ -7,6 +7,7 @@
 package gov.nasa.pds.tracking.tracking.db;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -230,4 +231,43 @@ public class Product  implements Serializable  {
 	public String getNssdca() {
 		return nssdca;
 	}
+	
+	private String releasesName = null;	
+	private Timestamp releasesDate = null;
+	private String releasesDescription = null;
+	
+	public void setReleasesName(String name) {
+		this.releasesName = name;
+	}
+
+	public void setReleasesDate(Timestamp release_date) {
+		this.releasesDate = release_date;
+		
+	}
+
+	public void setReleasesDescription(String description) {
+		this.releasesDescription = description;
+		
+	}
+	/**
+	 * @return the releasesName
+	 */
+	public String getReleasesName() {
+		return releasesName;
+	}
+
+	/**
+	 * @return the releasesDate
+	 */
+	public Timestamp getReleasesDate() {
+		return releasesDate;
+	}
+
+	/**
+	 * @return the releasesDescription
+	 */
+	public String getReleasesDescription() {
+		return releasesDescription;
+	}
+
 }

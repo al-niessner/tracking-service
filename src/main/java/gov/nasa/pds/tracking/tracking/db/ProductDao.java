@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -429,6 +430,58 @@ public class ProductDao extends DBConnector {
 			}
 			prod.setNssdca(nssdcaValue);
 			
+			
+		} catch (ClassNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	/**
+	 * @return a list of all products with latest releases order by title 
+	 */
+	public List<Product> getProductsWithLatestReleases() {
+		
+		List<Product> prodObjs = new ArrayList<Product>();
+
+		try {
+			prodObjs = getProductsOrderByTitle();
+			
+			if (prodObjs != null && prodObjs.size() > 0 ) {
+				for (int i = 0; i < prodObjs.size(); i++){
+					getLatestReleases (prodObjs.get(i)); 
+					//logger.debug("Latest Releases: " + prodObjs.get(i).getLatestReleases());
+				}
+			}
+			
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		return prodObjs;
+
+	}
+
+	private void getLatestReleases(Product prod) {
+		try {
+			String name = "";
+			Timestamp release_date = null;
+			String description = "";
+			
+			ReleasesDao releasesDao = new ReleasesDao();
+			Releases releases = releasesDao.getLatestReleases(prod.getIdentifier(), prod.getVersion());
+			if(releases != null && releases.getName() != null){
+				name = releases.getName();
+				release_date = releases.getDate();
+				description = releases.getDescription();
+			}
+			prod.setReleasesName(name);
+			prod.setReleasesDate(release_date);
+			prod.setReleasesDescription(description);
 			
 		} catch (ClassNotFoundException e) {
 
