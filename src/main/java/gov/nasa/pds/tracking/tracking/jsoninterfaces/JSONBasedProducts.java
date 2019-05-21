@@ -293,19 +293,21 @@ public class JSONBasedProducts {
 		return Response.status(200).entity(result).build();
 	}
 
-	@Path("/prod-with-releases")
+	@Path("/prod-with-releases/{instRef : (.+)?}/{investRef : (.+)?}/{nodeRef : (.+)?}")
 	@GET
 	@Produces("application/json")
-	public Response getProductsWithLatestReleases() throws JSONException {
+	public Response getProductsWithLatestReleases(@PathParam("instRef") String insRef,
+			@PathParam("investRef") String invRef, @PathParam("nodeRef") String nodeRef) throws JSONException {
 
 		JSONObject jsonProducts = new JSONObject();
 
 		JSONObject jsonProd = new JSONObject();
+		JSONObject jsonRef = new JSONObject();
 
 		ProductDao prod;
 		try {
 			prod = new ProductDao();
-			List<Product> prods = prod.getProductsWithLatestReleases();
+			List<Product> prods = prod.getProductsWithLatestReleases(insRef, invRef, nodeRef);
 			logger.info("number of products with releases: " + prods.size());
 			Iterator<Product> itr = prods.iterator();
 			int count = 1;
@@ -320,10 +322,84 @@ public class JSONBasedProducts {
 				jsonProd.put(ProductDao.TITLECOLUMN, p.getTitle());
 				jsonProd.put(ProductDao.TYPECOLUMN, p.getType());
 				jsonProd.put(ProductDao.ALTERNATECOLUMN, p.getAlternate() != null ? p.getAlternate() : "");
-				// logger.debug("Releases: " + p.getReleasesName());
+
 				jsonProd.put("releasesName", p.getReleasesName());
 				jsonProd.put("releasesDate", p.getReleasesDate());
 				jsonProd.put("releasesDescription", p.getReleasesDescription());
+				jsonRef = new JSONObject();
+				jsonRef.put(ReferenceDao.REFERENCECOLUMN, p.getInstRef());
+				jsonRef.put(ReferenceDao.TITLECOLUMN, p.getInstTitle());
+				jsonProd.append("instrument", jsonRef);
+
+				jsonRef = new JSONObject();
+				jsonRef.put(ReferenceDao.REFERENCECOLUMN, p.getInveRef());
+				jsonRef.put(ReferenceDao.TITLECOLUMN, p.getInveTitle());
+				jsonProd.append("investigation", jsonRef);
+
+				jsonRef = new JSONObject();
+				jsonRef.put(ReferenceDao.REFERENCECOLUMN, p.getNodeRef());
+				jsonRef.put(ReferenceDao.TITLECOLUMN, p.getNodeTitle());
+				jsonProd.append("node", jsonRef);
+
+				jsonProducts.append("products", jsonProd);
+				count++;
+			}
+
+		} catch (ClassNotFoundException e) {
+			logger.error(e);
+		} catch (SQLException e) {
+			logger.error(e);
+		}
+		String result = "" + jsonProducts.toString(4);
+		return Response.status(200).entity(result).build();
+	}
+
+	@Path("/prod-with-all-releases")
+	@GET
+	@Produces("application/json")
+	public Response getProductsWithLatestReleases() throws JSONException {
+
+		JSONObject jsonProducts = new JSONObject();
+
+		JSONObject jsonProd = new JSONObject();
+		JSONObject jsonRef = new JSONObject();
+
+		ProductDao prod;
+		try {
+			prod = new ProductDao();
+			List<Product> prods = prod.getProductsWithLatestReleases(null, null, null);
+			logger.info("number of products with releases: " + prods.size());
+			Iterator<Product> itr = prods.iterator();
+			int count = 1;
+
+			while (itr.hasNext()) {
+				Product p = itr.next();
+				logger.debug("Product " + count + ":\n " + p.getIdentifier() + " : " + p.getTitle());
+
+				jsonProd = new JSONObject();
+				jsonProd.put(ProductDao.IDENTIFIERCOLUMN, p.getIdentifier());
+				jsonProd.put(ProductDao.VERSIONCOLUMN, p.getVersion());
+				jsonProd.put(ProductDao.TITLECOLUMN, p.getTitle());
+				jsonProd.put(ProductDao.TYPECOLUMN, p.getType());
+				jsonProd.put(ProductDao.ALTERNATECOLUMN, p.getAlternate() != null ? p.getAlternate() : "");
+
+				jsonProd.put("releasesName", p.getReleasesName());
+				jsonProd.put("releasesDate", p.getReleasesDate());
+				jsonProd.put("releasesDescription", p.getReleasesDescription());
+				jsonRef = new JSONObject();
+				jsonRef.put(ReferenceDao.REFERENCECOLUMN, p.getInstRef());
+				jsonRef.put(ReferenceDao.TITLECOLUMN, p.getInstTitle());
+				jsonProd.append("instrument", jsonRef);
+
+				jsonRef = new JSONObject();
+				jsonRef.put(ReferenceDao.REFERENCECOLUMN, p.getInveRef());
+				jsonRef.put(ReferenceDao.TITLECOLUMN, p.getInveTitle());
+				jsonProd.append("investigation", jsonRef);
+
+				jsonRef = new JSONObject();
+				jsonRef.put(ReferenceDao.REFERENCECOLUMN, p.getNodeRef());
+				jsonRef.put(ReferenceDao.TITLECOLUMN, p.getNodeTitle());
+				jsonProd.append("node", jsonRef);
 
 				jsonProducts.append("products", jsonProd);
 				count++;
