@@ -8,10 +8,7 @@ import javax.ws.rs.Path;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,9 +37,6 @@ public class JSONBasedDelivery {
 	public static Logger logger = Logger.getLogger(JSONBasedDelivery.class);
 	
 	private static final String FAILURE_RESULT="Failure";
-	
-	private SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
 	DeliveryDao dD;
 
@@ -76,11 +70,11 @@ public class JSONBasedDelivery {
 		         jsonDelivery.put(DeliveryDao.LOG_IDENTIFIERCOLUMN, d.getLogIdentifier());
 		         jsonDelivery.put(DeliveryDao.VERSIONCOLUMN, d.getVersion());
 		         jsonDelivery.put(DeliveryDao.NAMECOLUMN, d.getName());
-		         jsonDelivery.put(DeliveryDao.STARTCOLUMN, dtf.format(d.getStart()));
-		         jsonDelivery.put(DeliveryDao.STOPCOLUMN, dtf.format(d.getStop()));		         
+		         jsonDelivery.put(DeliveryDao.STARTCOLUMN, d.getStart());
+		         jsonDelivery.put(DeliveryDao.STOPCOLUMN, d.getStop());		         
 		         jsonDelivery.put(DeliveryDao.SOURCECOLUMN, d.getSource());
 		         jsonDelivery.put(DeliveryDao.TARGETCOLUMN, d.getTarget());
-		         jsonDelivery.put(DeliveryDao.DUEDATECOLUMN, df.format(d.getDueDate()));
+		         jsonDelivery.put(DeliveryDao.DUEDATECOLUMN, d.getDueDate());
 		         
 		         jsonDeliveries.append("delivery", jsonDelivery);
 		         count++;
@@ -129,11 +123,11 @@ public class JSONBasedDelivery {
 		         jsonDelivery.put(DeliveryDao.LOG_IDENTIFIERCOLUMN, d.getLogIdentifier());
 		         jsonDelivery.put(DeliveryDao.VERSIONCOLUMN, d.getVersion());
 		         jsonDelivery.put(DeliveryDao.NAMECOLUMN, d.getName());
-		         jsonDelivery.put(DeliveryDao.STARTCOLUMN, dtf.format(d.getStart()));
-		         jsonDelivery.put(DeliveryDao.STOPCOLUMN, dtf.format(d.getStop()));		         
+		         jsonDelivery.put(DeliveryDao.STARTCOLUMN, d.getStart());
+		         jsonDelivery.put(DeliveryDao.STOPCOLUMN, d.getStop());		         
 		         jsonDelivery.put(DeliveryDao.SOURCECOLUMN, d.getSource());
 		         jsonDelivery.put(DeliveryDao.TARGETCOLUMN, d.getTarget());
-		         jsonDelivery.put(DeliveryDao.DUEDATECOLUMN, df.format(d.getDueDate()));
+		         jsonDelivery.put(DeliveryDao.DUEDATECOLUMN, d.getDueDate());
 		         
 		         
 		         
@@ -168,8 +162,8 @@ public class JSONBasedDelivery {
 		try {
 			dD = new DeliveryDao();
 	
-			Delivery del = new Delivery(logIdentifier, -1, ver, name, Timestamp.valueOf(startTime), Timestamp.valueOf(stopTime),
-					src, tgt, Date.valueOf(dueD));
+			Delivery del = new Delivery(logIdentifier, -1, ver, name, startTime, stopTime,
+					src, tgt, dueD);
 			int result = dD.insertDelivery(del);
 			
 			if(result > 0){
@@ -212,8 +206,8 @@ public class JSONBasedDelivery {
 		try {
 			dD = new DeliveryDao();
 			
-			Delivery del = new Delivery(logIdentifier, (new Integer(delIdentifier).intValue()), ver, name, Timestamp.valueOf(startTime), Timestamp.valueOf(stopTime),
-					src, tgt, Date.valueOf(dueD));
+			Delivery del = new Delivery(logIdentifier, (new Integer(delIdentifier).intValue()), ver, name, startTime, stopTime,
+					src, tgt, dueD);
 			Delivery updatedDel = dD.updateDelivery(del);
 			
 			if(updatedDel != null){

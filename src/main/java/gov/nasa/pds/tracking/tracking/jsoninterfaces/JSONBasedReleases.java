@@ -8,10 +8,7 @@ import javax.ws.rs.Path;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +39,6 @@ public class JSONBasedReleases {
 
 	private static final String FAILURE_RESULT="Failure";
 	private ReleasesDao relD;
-	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	/**
 	 * @return
 	 * @throws JSONException
@@ -66,20 +62,19 @@ public class JSONBasedReleases {
 			int count = 1;
 			while(itr.hasNext()) {
 				Releases r = itr.next();
-		         logger.debug("Releases " + count + ":\n " + r.getLogIdentifier() + " : " + r.getDate().toString());
+		         logger.debug("Releases " + count + ":\n " + r.getLogIdentifier() + " : " + r.getDate());
 					
 		         jsonRelease = new JSONObject();
 		     	
 		     	jsonRelease.put(ReleasesDao.LOGIDENTIFIERCOLUME, r.getLogIdentifier());
 		     	jsonRelease.put(ReleasesDao.VERSIONCOLUME, r.getVersion());
-		     	jsonRelease.put(ReleasesDao.DATECOLUME, df.format(r.getDate()));
-		     	jsonRelease.put(ReleasesDao.ANCMDATECOLUME, df.format(r.getAnnouncement_date()));
+		     	jsonRelease.put(ReleasesDao.DATECOLUME, r.getDate());
 		     	jsonRelease.put(ReleasesDao.NAMECOLUME, r.getName());
 		     	jsonRelease.put(ReleasesDao.DESCCOLUME, r.getDescription());
 		     	jsonRelease.put(ReleasesDao.EMAILCOLUME, r.getEmail());
 		     	jsonRelease.put(ReleasesDao.COMMENTCOLUME, r.getComment() != null ? r.getComment() : "");
 		         
-		     	jsonReleases.append("Releases", jsonRelease);
+		     	jsonReleases.append("Archive Status", jsonRelease);
 		         count++;
 		    }
 			
@@ -128,20 +123,19 @@ public class JSONBasedReleases {
 			int count = 1;
 			while(itr.hasNext()) {
 				Releases r = itr.next();
-		         logger.debug("Releases " + count + ":\n " + r.getLogIdentifier() + " : " + r.getDate().toString());
+		         logger.debug("Releases " + count + ":\n " + r.getLogIdentifier() + " : " + r.getDate());
 					
 		         jsonRelease = new JSONObject();
 		     	
 		     	jsonRelease.put(ReleasesDao.LOGIDENTIFIERCOLUME, r.getLogIdentifier());
 		     	jsonRelease.put(ReleasesDao.VERSIONCOLUME, r.getVersion());
-		     	jsonRelease.put(ReleasesDao.DATECOLUME, df.format(r.getDate()));
-		     	jsonRelease.put(ReleasesDao.ANCMDATECOLUME, df.format(r.getAnnouncement_date()));
+		     	jsonRelease.put(ReleasesDao.DATECOLUME, r.getDate());
 		     	jsonRelease.put(ReleasesDao.NAMECOLUME, r.getName());
 		     	jsonRelease.put(ReleasesDao.DESCCOLUME, r.getDescription());
 		     	jsonRelease.put(ReleasesDao.EMAILCOLUME, r.getEmail());
 		     	jsonRelease.put(ReleasesDao.COMMENTCOLUME, r.getComment() != null ? r.getComment() : "");
 		         
-		     	jsonReleases.append("Releases", jsonRelease);
+		     	jsonReleases.append("Archive Status", jsonRelease);
 		         count++;
 		    }
 			
@@ -163,7 +157,6 @@ public class JSONBasedReleases {
 	public Response createReleases(@FormParam("LogicalIdentifier") String logicalIdentifier,
 			@FormParam("Version") String ver,
 			@FormParam("Date") String date,
-			@FormParam("Announcement_Date") String ancmDate,
 			@FormParam("Name") String name,
 			@FormParam("Desc") String desc,
 			@FormParam("Email") String email,
@@ -171,36 +164,22 @@ public class JSONBasedReleases {
 		
 		JSONObject relt = new JSONObject();
 		JSONObject message = new JSONObject();
-		
 		try {
 			relD = new ReleasesDao();
-			java.util.Date rels_date = df.parse(date);
-			logger.debug("util date time");
-			logger.debug(rels_date);
-			java.util.Date ancm_date = df.parse(ancmDate);
-			logger.debug(ancm_date);
-			
-			logger.debug("sql date time");
-			logger.debug(new Timestamp(rels_date.getTime()));
-			logger.debug(new Timestamp(ancm_date.getTime()));
 
-			Releases rel = new Releases(logicalIdentifier, ver, new Timestamp(rels_date.getTime()), new Timestamp(ancm_date.getTime()), name, desc, email, comment);
+			Releases rel = new Releases(logicalIdentifier, ver, date, name, desc, email, comment);
 			int result = relD.insertReleases(rel);
 			
 			if(result == 1){
 				message.put(ReleasesDao.LOGIDENTIFIERCOLUME, rel.getLogIdentifier());
 				message.put(ReleasesDao.VERSIONCOLUME, rel.getVersion());
-				logger.debug("back date");
-				logger.debug(df.format(rel.getDate()));
-				message.put(ReleasesDao.DATECOLUME, df.format(rel.getDate()));
-				logger.debug(df.format(rel.getAnnouncement_date()));
-				message.put(ReleasesDao.ANCMDATECOLUME, df.format(rel.getAnnouncement_date()));
+				message.put(ReleasesDao.DATECOLUME, rel.getDate());
 				message.put(ReleasesDao.NAMECOLUME, rel.getName());
 				message.put(ReleasesDao.DESCCOLUME, rel.getDescription());
 				message.put(ReleasesDao.EMAILCOLUME, rel.getEmail());		         
 				message.put(ReleasesDao.COMMENTCOLUME, rel.getComment() != null ? rel.getComment() : "");
 			}
-		} catch (ClassNotFoundException | SQLException | ParseException e) {			
+		} catch (ClassNotFoundException | SQLException e) {			
 			e.printStackTrace();
 			message.put("Message", FAILURE_RESULT);
 		}

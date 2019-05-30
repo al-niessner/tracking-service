@@ -8,8 +8,6 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +33,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import gov.nasa.pds.tracking.tracking.db.DBConnector;
 import gov.nasa.pds.tracking.tracking.db.SubmissionAndStatus;
 import gov.nasa.pds.tracking.tracking.db.SubmissionAndStatusDao;
 import gov.nasa.pds.tracking.tracking.db.SubmissionStatus;;
@@ -47,8 +46,7 @@ import gov.nasa.pds.tracking.tracking.db.SubmissionStatus;;
 public class XMLBasedSubmissionAndStatus {
 	
 	public static Logger logger = Logger.getLogger(XMLBasedSubmissionAndStatus.class);
-	
-	private SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 
 	private SubmissionAndStatusDao subMD;
 	
@@ -84,11 +82,11 @@ public class XMLBasedSubmissionAndStatus {
 		            subRootElement.appendChild(idElement);
 		            
 		            Element dateElement = doc.createElement(SubmissionStatus.SUBMISSIONDATECOLUME);
-		            dateElement.appendChild(doc.createTextNode(dtf.format(s.getSubmissionDate())));
+		            dateElement.appendChild(doc.createTextNode(s.getSubmissionDate()));
 		            subRootElement.appendChild(dateElement);
 		            
 		            Element statusDateElement = doc.createElement(SubmissionStatus.STATUSDATECOLUME);
-		            statusDateElement.appendChild(doc.createTextNode(dtf.format(s.getStatusDate())));
+		            statusDateElement.appendChild(doc.createTextNode(s.getStatusDate()));
 		            subRootElement.appendChild(statusDateElement);
 		            
 		            Element statusElement = doc.createElement(SubmissionStatus.STATUSCOLUME);
@@ -175,11 +173,11 @@ public class XMLBasedSubmissionAndStatus {
 		            subRootElement.appendChild(idElement);
 		            
 		            Element dateElement = doc.createElement(SubmissionStatus.SUBMISSIONDATECOLUME);
-		            dateElement.appendChild(doc.createTextNode(dtf.format(s.getSubmissionDate())));
+		            dateElement.appendChild(doc.createTextNode(s.getSubmissionDate()));
 		            subRootElement.appendChild(dateElement);
 		            
 		            Element statusDateElement = doc.createElement(SubmissionStatus.STATUSDATECOLUME);
-		            statusDateElement.appendChild(doc.createTextNode(dtf.format(s.getStatusDate())));
+		            statusDateElement.appendChild(doc.createTextNode(s.getStatusDate()));
 		            subRootElement.appendChild(statusDateElement);
 		            
 		            Element statusElement = doc.createElement(SubmissionStatus.STATUSCOLUME);
@@ -246,7 +244,7 @@ public class XMLBasedSubmissionAndStatus {
 		try {
 			subMD = new SubmissionAndStatusDao();
 		
-			Timestamp currentTime = new Timestamp(new Date().getTime());
+			String currentTime = DBConnector.ISO_BASIC.format(new Date());
 			SubmissionAndStatus subMS = new SubmissionAndStatus(id, currentTime, currentTime,
 					status, email, comment);
 			int result = subMD.insertSubmissionAndStatus(subMS);
@@ -266,11 +264,11 @@ public class XMLBasedSubmissionAndStatus {
 	            subRootElement.appendChild(idElement);
 	            
 	            Element dateElement = doc.createElement(SubmissionStatus.SUBMISSIONDATECOLUME);
-	            dateElement.appendChild(doc.createTextNode(dtf.format(subMS.getSubmissionDate())));
+	            dateElement.appendChild(doc.createTextNode(subMS.getSubmissionDate()));
 	            subRootElement.appendChild(dateElement);
 	            
 	            Element statusDateElement = doc.createElement(SubmissionStatus.STATUSDATECOLUME);
-	            statusDateElement.appendChild(doc.createTextNode(dtf.format(subMS.getStatusDate())));
+	            statusDateElement.appendChild(doc.createTextNode(subMS.getStatusDate()));
 	            subRootElement.appendChild(statusDateElement);
 	            
 	            Element statusElement = doc.createElement(SubmissionStatus.STATUSCOLUME);
@@ -335,8 +333,8 @@ public class XMLBasedSubmissionAndStatus {
 		try {
 			subMD = new SubmissionAndStatusDao();
 		
-			Timestamp currentTime = new Timestamp(new Date().getTime());
-			SubmissionAndStatus subMS = new SubmissionAndStatus(id, Timestamp.valueOf(submissionDate), currentTime,
+			String currentTime = DBConnector.ISO_BASIC.format(new Date());
+			SubmissionAndStatus subMS = new SubmissionAndStatus(id, submissionDate, currentTime,
 					status, email, comment);
 			int result = subMD.insertSubmissionStatus(subMS);
 			
@@ -355,11 +353,11 @@ public class XMLBasedSubmissionAndStatus {
 	            subRootElement.appendChild(idElement);
 	            
 	            Element dateElement = doc.createElement(SubmissionStatus.SUBMISSIONDATECOLUME);
-	            dateElement.appendChild(doc.createTextNode(dtf.format(subMS.getSubmissionDate())));
+	            dateElement.appendChild(doc.createTextNode(subMS.getSubmissionDate()));
 	            subRootElement.appendChild(dateElement);
 	            
 	            Element statusDateElement = doc.createElement(SubmissionStatus.STATUSDATECOLUME);
-	            statusDateElement.appendChild(doc.createTextNode(dtf.format(subMS.getStatusDate())));
+	            statusDateElement.appendChild(doc.createTextNode(subMS.getStatusDate()));
 	            subRootElement.appendChild(statusDateElement);
 	            
 	            Element statusElement = doc.createElement(SubmissionStatus.STATUSCOLUME);
@@ -425,7 +423,8 @@ public class XMLBasedSubmissionAndStatus {
 		try {
 			subMD = new SubmissionAndStatusDao();
 		
-			SubmissionAndStatus subMS = new SubmissionAndStatus(id, Timestamp.valueOf(submissionDate), Timestamp.valueOf(statusDate),
+			//String currentTime = DBConnector.ISO_BASIC.format(new Date());
+			SubmissionAndStatus subMS = new SubmissionAndStatus(id, submissionDate, statusDate,
 					status, email, comment);
 			SubmissionAndStatus result = subMD.updateSubmissionStatus(subMS);
 			
@@ -444,11 +443,11 @@ public class XMLBasedSubmissionAndStatus {
 	            subRootElement.appendChild(idElement);
 	            
 	            Element dateElement = doc.createElement(SubmissionStatus.SUBMISSIONDATECOLUME);
-	            dateElement.appendChild(doc.createTextNode(dtf.format(result.getSubmissionDate())));
+	            dateElement.appendChild(doc.createTextNode(result.getSubmissionDate()));
 	            subRootElement.appendChild(dateElement);
 	            
 	            Element statusDateElement = doc.createElement(SubmissionStatus.STATUSDATECOLUME);
-	            statusDateElement.appendChild(doc.createTextNode(dtf.format(result.getStatusDate())));
+	            statusDateElement.appendChild(doc.createTextNode(result.getStatusDate()));
 	            subRootElement.appendChild(statusDateElement);
 	            
 	            Element statusElement = doc.createElement(SubmissionStatus.STATUSCOLUME);

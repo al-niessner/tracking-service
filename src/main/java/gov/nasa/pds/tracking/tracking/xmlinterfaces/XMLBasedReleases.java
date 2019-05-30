@@ -8,9 +8,6 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,8 +44,6 @@ import gov.nasa.pds.tracking.tracking.db.ReleasesDao;
 public class XMLBasedReleases {
 	
 	public static Logger logger = Logger.getLogger(XMLBasedReleases.class);
-	
-	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@GET
     @Produces("application/xml")
@@ -90,12 +85,8 @@ public class XMLBasedReleases {
 		            subRootElement.appendChild(verElement);
 		            
 		            Element dateElement = doc.createElement(ReleasesDao.DATECOLUME);
-		            dateElement.appendChild(doc.createTextNode(df.format(r.getDate())));
+		            dateElement.appendChild(doc.createTextNode(r.getDate()));
 		            subRootElement.appendChild(dateElement);
-		            
-		            Element ancmdateElement = doc.createElement(ReleasesDao.ANCMDATECOLUME);
-		            ancmdateElement.appendChild(doc.createTextNode(df.format(r.getAnnouncement_date())));
-		            subRootElement.appendChild(ancmdateElement);
 		            
 		            Element nameElement = doc.createElement(ReleasesDao.NAMECOLUME);
 		            nameElement.appendChild(doc.createTextNode(r.getName()));
@@ -201,12 +192,8 @@ public class XMLBasedReleases {
 		            subRootElement.appendChild(verElement);
 		            
 		            Element dateElement = doc.createElement(ReleasesDao.DATECOLUME);
-		            dateElement.appendChild(doc.createTextNode(df.format(r.getDate())));
+		            dateElement.appendChild(doc.createTextNode(r.getDate()));
 		            subRootElement.appendChild(dateElement);
-		            
-		            Element ancmdateElement = doc.createElement(ReleasesDao.ANCMDATECOLUME);
-		            ancmdateElement.appendChild(doc.createTextNode(df.format(r.getAnnouncement_date())));
-		            subRootElement.appendChild(ancmdateElement);
 		            
 		            Element nameElement = doc.createElement(ReleasesDao.NAMECOLUME);
 		            nameElement.appendChild(doc.createTextNode(r.getName()));
@@ -267,8 +254,7 @@ public class XMLBasedReleases {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)	
 	public Response createReleases(@FormParam("LogicalIdentifier") String logicalIdentifier,
 			@FormParam("Version") String ver,
-			@FormParam("Date") String date,
-			@FormParam("Announcement_Date") String ancmDate,
+			@FormParam("Datte") String date,
 			@FormParam("Name") String name,
 			@FormParam("Desc") String desc,
 			@FormParam("Email") String email,
@@ -280,10 +266,7 @@ public class XMLBasedReleases {
 		try {
 			relD = new ReleasesDao();
 
-			java.util.Date rels_date = df.parse(date);
-			java.util.Date ancm_date = df.parse(ancmDate);
-
-			Releases rel = new Releases(logicalIdentifier, ver, new Timestamp(rels_date.getTime()), new Timestamp(ancm_date.getTime()), name, desc, email, comment);
+			Releases rel = new Releases(logicalIdentifier, ver, date, name, desc, email, comment);
 			int result = relD.insertReleases(rel);
 			
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -305,12 +288,8 @@ public class XMLBasedReleases {
 	            subRootElement.appendChild(verElement);
 	            
 	            Element dateElement = doc.createElement(ReleasesDao.DATECOLUME);
-	            dateElement.appendChild(doc.createTextNode(df.format(rel.getDate())));
+	            dateElement.appendChild(doc.createTextNode(rel.getDate()));
 	            subRootElement.appendChild(dateElement);
-	            
-	            Element ancmdateElement = doc.createElement(ReleasesDao.ANCMDATECOLUME);
-	            ancmdateElement.appendChild(doc.createTextNode(df.format(rel.getAnnouncement_date())));
-	            subRootElement.appendChild(ancmdateElement);
 	            
 	            Element nameElement = doc.createElement(ReleasesDao.NAMECOLUME);
 	            nameElement.appendChild(doc.createTextNode(rel.getName()));
@@ -356,8 +335,6 @@ public class XMLBasedReleases {
     	logger.error(ex);
 	} catch (SQLException ex) {
 		logger.error(ex);
-	} catch (ParseException e) {
-		logger.error(e);
 	}
 
     return Response.status(200).entity(xmlOutput.toString()).build();

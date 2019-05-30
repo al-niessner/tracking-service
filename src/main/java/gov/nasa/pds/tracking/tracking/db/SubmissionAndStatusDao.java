@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class SubmissionAndStatusDao extends DBConnector {
 	}
 	
 	@SuppressWarnings("finally")
-	private SubmissionAndStatus getSubmissionsAndStatus(int del_identifier, Timestamp submissionDate, Timestamp statusDate) {
+	private SubmissionAndStatus getSubmissionsAndStatus(int del_identifier, String submissionDate, String statusDate) {
 		
 		SubmissionAndStatus status = null;
 		
@@ -65,8 +64,8 @@ public class SubmissionAndStatusDao extends DBConnector {
 				status = new SubmissionAndStatus();
 
 				status.setDel_identifier(resultSet.getInt(DEL_IDENTIFIERCOLUME));
-				status.setSubmissionDate(resultSet.getTimestamp(SUBMISSIONDATECOLUME));
-				status.setStatusDate(resultSet.getTimestamp(STATUSDATECOLUME));
+				status.setSubmissionDate(resultSet.getString(SUBMISSIONDATECOLUME));
+				status.setStatusDate(resultSet.getString(STATUSDATECOLUME));
 				status.setStatus(resultSet.getString(STATUSCOLUME));
 				status.setEmail(resultSet.getString(EMAILCOLUME));
 				status.setComment(resultSet.getString(COMMENTCOLUME));
@@ -102,8 +101,8 @@ public class SubmissionAndStatusDao extends DBConnector {
 				status = new SubmissionAndStatus();
 
 				status.setDel_identifier(resultSet.getInt(DEL_IDENTIFIERCOLUME));
-				status.setSubmissionDate(resultSet.getTimestamp(SUBMISSIONDATECOLUME));
-				status.setStatusDate(resultSet.getTimestamp(STATUSDATECOLUME));
+				status.setSubmissionDate(resultSet.getString(SUBMISSIONDATECOLUME));
+				status.setStatusDate(resultSet.getString(STATUSDATECOLUME));
 				status.setStatus(resultSet.getString(STATUSCOLUME));
 				status.setEmail(resultSet.getString(EMAILCOLUME));
 				status.setComment(resultSet.getString(COMMENTCOLUME));
@@ -144,8 +143,8 @@ public class SubmissionAndStatusDao extends DBConnector {
 				status = new SubmissionAndStatus();
 
 				status.setDel_identifier(resultSet.getInt(DEL_IDENTIFIERCOLUME));
-				status.setSubmissionDate(resultSet.getTimestamp(SUBMISSIONDATECOLUME));
-				status.setStatusDate(resultSet.getTimestamp(STATUSDATECOLUME));
+				status.setSubmissionDate(resultSet.getString(SUBMISSIONDATECOLUME));
+				status.setStatusDate(resultSet.getString(STATUSDATECOLUME));
 				status.setStatus(resultSet.getString(STATUSCOLUME));
 				status.setEmail(resultSet.getString(EMAILCOLUME));
 				status.setComment(resultSet.getString(COMMENTCOLUME));
@@ -176,7 +175,7 @@ public class SubmissionAndStatusDao extends DBConnector {
 			prepareStm = connect.prepareStatement("INSERT INTO " + TABLENAME + " (" + DEL_IDENTIFIERCOLUME + ", " + SUBMISSIONDATECOLUME + ") VALUES (?, ?)");
 			prepareStm.setInt(1, subMS.getDel_identifier());
 			//String currentTime = ISO_BASIC.format(new Date());
-			prepareStm.setTimestamp(2, subMS.getSubmissionDate());
+			prepareStm.setString(2, subMS.getSubmissionDate());
 			
 			prepareStm.executeUpdate();
 			
@@ -230,8 +229,8 @@ public class SubmissionAndStatusDao extends DBConnector {
 			
 			
 			prepareStm.setInt(1, subMS.getDel_identifier());
-			prepareStm.setTimestamp(2, subMS.getSubmissionDate());
-			prepareStm.setTimestamp(3, subMS.getStatusDate());
+			prepareStm.setString(2, subMS.getSubmissionDate());
+			prepareStm.setString(3, subMS.getStatusDate());
 			prepareStm.setString(4, subMS.getStatus());
 			prepareStm.setString(5, subMS.getEmail());
 			prepareStm.setString(6, subMS.getComment());
@@ -298,8 +297,8 @@ public class SubmissionAndStatusDao extends DBConnector {
 			if (hasComment)
 				prepareStm.setString(3, subMS.getComment());
 			prepareStm.setInt(hasComment ? 4:3, subMS.getDel_identifier());
-			prepareStm.setTimestamp(hasComment ? 5:4, subMS.getSubmissionDate());
-			prepareStm.setTimestamp(hasComment ? 6:4, subMS.getStatusDate());
+			prepareStm.setString(hasComment ? 5:4, subMS.getSubmissionDate());
+			prepareStm.setString(hasComment ? 6:4, subMS.getStatusDate());
 			
 			
 			prepareStm.executeUpdate();

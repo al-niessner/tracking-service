@@ -26,7 +26,6 @@ public class ReleasesDao extends DBConnector {
 	public static final String LOGIDENTIFIERCOLUME = "logical_identifier";
 	public static final String VERSIONCOLUME = "version_id";
 	public static final String DATECOLUME = "release_date_time";
-	public static final String ANCMDATECOLUME = "announcement_date_time";
 	public static final String NAMECOLUME = "name";
 	public static final String DESCCOLUME = "description";
 	public static final String EMAILCOLUME = "electronic_mail_address";
@@ -57,22 +56,17 @@ public class ReleasesDao extends DBConnector {
 													+ LOGIDENTIFIERCOLUME + ", " 
 													+ VERSIONCOLUME + ", "
 													+ DATECOLUME + ", "
-													+ ANCMDATECOLUME + ", "
 													+ NAMECOLUME + ", "
 													+ DESCCOLUME + ", "
 													+ EMAILCOLUME + ", "
-													+ COMMENTCOLUME + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+													+ COMMENTCOLUME + ") VALUES (?, ?, ?, ?, ?, ?, ?)");
 			prepareStm.setString(1, rels.getLogIdentifier());
 			prepareStm.setString(2, rels.getVersion());
-			logger.debug("insert date");
-			logger.debug(rels.getDate());
-			prepareStm.setTimestamp(3, rels.getDate());
-			logger.debug(rels.getAnnouncement_date());
-			prepareStm.setTimestamp(4, rels.getAnnouncement_date());
-			prepareStm.setString(5, rels.getName());
-			prepareStm.setString(6, rels.getDescription());
-			prepareStm.setString(7, rels.getEmail());
-			prepareStm.setString(8, rels.getComment());
+			prepareStm.setString(3, rels.getDate());
+			prepareStm.setString(4, rels.getName());
+			prepareStm.setString(5, rels.getDescription());
+			prepareStm.setString(6, rels.getEmail());
+			prepareStm.setString(7, rels.getComment());
 			
 			prepareStm.executeUpdate();
 			
@@ -123,9 +117,7 @@ public class ReleasesDao extends DBConnector {
 				rel.setDescription(resultSet.getString(ReleasesDao.DESCCOLUME));
 				rel.setEmail(resultSet.getString(EMAILCOLUME));
 				rel.setComment(resultSet.getString(COMMENTCOLUME));
-				rel.setDate(resultSet.getTimestamp(DATECOLUME));
-				rel.setAnnouncement_date(resultSet.getTimestamp(ANCMDATECOLUME));
-				
+				rel.setDate(resultSet.getString(DATECOLUME));
 				
 				rels.add(rel);
 			}	
@@ -170,8 +162,7 @@ public class ReleasesDao extends DBConnector {
 				rel.setDescription(resultSet.getString(ReleasesDao.DESCCOLUME));
 				rel.setEmail(resultSet.getString(EMAILCOLUME));
 				rel.setComment(resultSet.getString(COMMENTCOLUME));
-				rel.setDate(resultSet.getTimestamp(DATECOLUME));
-				rel.setAnnouncement_date(resultSet.getTimestamp(ANCMDATECOLUME));
+				rel.setDate(resultSet.getString(DATECOLUME));
 				
 			}	
 			else{
@@ -219,8 +210,7 @@ public class ReleasesDao extends DBConnector {
 				rel.setDescription(resultSet.getString(ReleasesDao.DESCCOLUME));
 				rel.setEmail(resultSet.getString(EMAILCOLUME));
 				rel.setComment(resultSet.getString(COMMENTCOLUME));
-				rel.setDate(resultSet.getTimestamp(DATECOLUME));
-				rel.setAnnouncement_date(resultSet.getTimestamp(ANCMDATECOLUME));
+				rel.setDate(resultSet.getString(DATECOLUME));
 				
 				rels.add(rel);
 			}	
