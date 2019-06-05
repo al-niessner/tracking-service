@@ -53,7 +53,7 @@ public class CertificationStatusDao extends DBConnector {
 													+ COMMENTCOLUMN + ") VALUES (?, ?, ?, ?, ?, ?)");
 			prepareStm.setString(1, cStatus.getLogIdentifier());
 			prepareStm.setString(2, cStatus.getVersion());
-			prepareStm.setString(3, cStatus.getDate());
+			prepareStm.setTimestamp(3, cStatus.getDate());
 			prepareStm.setString(4, cStatus.getStatus());
 			prepareStm.setString(5, cStatus.getEmail());
 			prepareStm.setString(6, cStatus.getComment());
@@ -113,7 +113,7 @@ public class CertificationStatusDao extends DBConnector {
 				certifStatus.setStatus(resultSet.getString(STATUSCOLUMN));
 				certifStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				certifStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				certifStatus.setDate(resultSet.getString(DATECOLUMN));
+				certifStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
 				
 			}	
 			else{
@@ -160,7 +160,7 @@ public class CertificationStatusDao extends DBConnector {
 				certifStatus.setStatus(resultSet.getString(STATUSCOLUMN));
 				certifStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				certifStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				certifStatus.setDate(resultSet.getString(DATECOLUMN));
+				certifStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
 				
 				certifStatuses.add(certifStatus);
 			}	
@@ -202,7 +202,7 @@ public class CertificationStatusDao extends DBConnector {
 				cStatus.setStatus(resultSet.getString(STATUSCOLUMN));
 				cStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				cStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				cStatus.setDate(resultSet.getString(DATECOLUMN));
+				cStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
 
 				cStatuses.add(cStatus);
 			}
@@ -244,7 +244,7 @@ public class CertificationStatusDao extends DBConnector {
 				cStatus.setStatus(resultSet.getString(STATUSCOLUMN));
 				cStatus.setEmail(resultSet.getString(EMAILCOLUMN));
 				cStatus.setComment(resultSet.getString(COMMENTCOLUMN));
-				cStatus.setDate(resultSet.getString(DATECOLUMN));
+				cStatus.setDate(resultSet.getTimestamp(DATECOLUMN));
 
 				cStatuses.add(cStatus);
 			}

@@ -5,14 +5,12 @@ package gov.nasa.pds.tracking.tracking.jsoninterfaces;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-//import javax.servlet.http.HttpServletResponse;
-
 import javax.ws.rs.Consumes;
-//import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,7 +25,6 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import gov.nasa.pds.tracking.tracking.db.DBConnector;
 import gov.nasa.pds.tracking.tracking.db.SubmissionAndStatus;
 import gov.nasa.pds.tracking.tracking.db.SubmissionAndStatusDao;
 
@@ -41,6 +38,8 @@ public class JSONBasedSubmissionAndStatus {
 	public static Logger logger = Logger.getLogger(JSONBasedSubmissionAndStatus.class);
 	
 	private static final String FAILURE_RESULT="Failure";
+	
+	private SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	private SubmissionAndStatusDao subMD;
 
@@ -65,8 +64,8 @@ public class JSONBasedSubmissionAndStatus {
 
 				jsonSubMStatus = new JSONObject();
 				jsonSubMStatus.put(SubmissionAndStatusDao.DEL_IDENTIFIERCOLUME, s.getDel_identifier());
-				jsonSubMStatus.put(SubmissionAndStatusDao.SUBMISSIONDATECOLUME, s.getSubmissionDate());
-				jsonSubMStatus.put(SubmissionAndStatusDao.STATUSDATECOLUME, s.getStatusDate());
+				jsonSubMStatus.put(SubmissionAndStatusDao.SUBMISSIONDATECOLUME, dtf.format(s.getSubmissionDate()));
+				jsonSubMStatus.put(SubmissionAndStatusDao.STATUSDATECOLUME, dtf.format(s.getStatusDate()));
 				jsonSubMStatus.put(SubmissionAndStatusDao.STATUSCOLUME, s.getStatus());
 				jsonSubMStatus.put(SubmissionAndStatusDao.EMAILCOLUME, s.getEmail());
 				jsonSubMStatus.put(SubmissionAndStatusDao.COMMENTCOLUME, s.getComment() != null ? s.getComment() : "");
@@ -107,8 +106,8 @@ public class JSONBasedSubmissionAndStatus {
 
 				jsonSubMStatus = new JSONObject();
 				jsonSubMStatus.put(SubmissionAndStatusDao.DEL_IDENTIFIERCOLUME, s.getDel_identifier());
-				jsonSubMStatus.put(SubmissionAndStatusDao.SUBMISSIONDATECOLUME, s.getSubmissionDate());
-				jsonSubMStatus.put(SubmissionAndStatusDao.STATUSDATECOLUME, s.getStatusDate());
+				jsonSubMStatus.put(SubmissionAndStatusDao.SUBMISSIONDATECOLUME, dtf.format(s.getSubmissionDate()));
+				jsonSubMStatus.put(SubmissionAndStatusDao.STATUSDATECOLUME, dtf.format(s.getStatusDate()));
 				jsonSubMStatus.put(SubmissionAndStatusDao.STATUSCOLUME, s.getStatus());
 				jsonSubMStatus.put(SubmissionAndStatusDao.EMAILCOLUME, s.getEmail());
 				jsonSubMStatus.put(SubmissionAndStatusDao.COMMENTCOLUME, s.getComment() != null ? s.getComment() : "");
@@ -141,15 +140,15 @@ public class JSONBasedSubmissionAndStatus {
 		try {
 			subMD = new SubmissionAndStatusDao();
 		
-			String currentTime = DBConnector.ISO_BASIC.format(new Date());
+			Timestamp currentTime = new Timestamp(new Date().getTime());
 			SubmissionAndStatus subMS = new SubmissionAndStatus(id, currentTime, currentTime,
 					status, email, comment);
 			int result = subMD.insertSubmissionAndStatus(subMS);
 			
 			if(result == 1){
 				message.put(SubmissionAndStatusDao.DEL_IDENTIFIERCOLUME, subMS.getDel_identifier());
-				message.put(SubmissionAndStatusDao.SUBMISSIONDATECOLUME, subMS.getSubmissionDate());
-				message.put(SubmissionAndStatusDao.STATUSDATECOLUME, subMS.getStatusDate());
+				message.put(SubmissionAndStatusDao.SUBMISSIONDATECOLUME, dtf.format(subMS.getSubmissionDate()));
+				message.put(SubmissionAndStatusDao.STATUSDATECOLUME, dtf.format(subMS.getStatusDate()));
 				message.put(SubmissionAndStatusDao.STATUSCOLUME, subMS.getStatus());
 				message.put(SubmissionAndStatusDao.EMAILCOLUME, subMS.getEmail());
 				message.put(SubmissionAndStatusDao.COMMENTCOLUME, subMS.getComment() != null ? subMS.getComment() : "");
@@ -179,15 +178,15 @@ public class JSONBasedSubmissionAndStatus {
 		try {
 			subMD = new SubmissionAndStatusDao();
 		
-			String currentTime = DBConnector.ISO_BASIC.format(new Date());
-			SubmissionAndStatus subMS = new SubmissionAndStatus(id, submissionDate, currentTime,
+			Timestamp currentTime = new Timestamp(new Date().getTime());
+			SubmissionAndStatus subMS = new SubmissionAndStatus(id, Timestamp.valueOf(submissionDate), currentTime,
 					status, email, comment);
 			int result = subMD.insertSubmissionStatus(subMS);
 			
 			if(result == 1){
 				message.put(SubmissionAndStatusDao.DEL_IDENTIFIERCOLUME, subMS.getDel_identifier());
-				message.put(SubmissionAndStatusDao.SUBMISSIONDATECOLUME, subMS.getSubmissionDate());
-				message.put(SubmissionAndStatusDao.STATUSDATECOLUME, subMS.getStatusDate());
+				message.put(SubmissionAndStatusDao.SUBMISSIONDATECOLUME, dtf.format(subMS.getSubmissionDate()));
+				message.put(SubmissionAndStatusDao.STATUSDATECOLUME, dtf.format(subMS.getStatusDate()));
 				message.put(SubmissionAndStatusDao.STATUSCOLUME, subMS.getStatus());
 				message.put(SubmissionAndStatusDao.EMAILCOLUME, subMS.getEmail());
 				message.put(SubmissionAndStatusDao.COMMENTCOLUME, subMS.getComment() != null ? subMS.getComment() : "");
@@ -218,15 +217,14 @@ public class JSONBasedSubmissionAndStatus {
 		try {
 			subMD = new SubmissionAndStatusDao();
 		
-			//String currentTime = DBConnector.ISO_BASIC.format(new Date());
-			SubmissionAndStatus subMS = new SubmissionAndStatus(id, submissionDate, statusDate,
+			SubmissionAndStatus subMS = new SubmissionAndStatus(id, Timestamp.valueOf(submissionDate), Timestamp.valueOf(statusDate),
 					status, email, comment);
 			SubmissionAndStatus result = subMD.updateSubmissionStatus(subMS);
 			
 			if(result != null && result.getDel_identifier() > 0){
 				message.put(SubmissionAndStatusDao.DEL_IDENTIFIERCOLUME, result.getDel_identifier());
-				message.put(SubmissionAndStatusDao.SUBMISSIONDATECOLUME, result.getSubmissionDate());
-				message.put(SubmissionAndStatusDao.STATUSDATECOLUME, result.getStatusDate());
+				message.put(SubmissionAndStatusDao.SUBMISSIONDATECOLUME, dtf.format(result.getSubmissionDate()));
+				message.put(SubmissionAndStatusDao.STATUSDATECOLUME, dtf.format(result.getStatusDate()));
 				message.put(SubmissionAndStatusDao.STATUSCOLUME, result.getStatus());
 				message.put(SubmissionAndStatusDao.EMAILCOLUME, result.getEmail());
 				message.put(SubmissionAndStatusDao.COMMENTCOLUME, result.getComment() != null ? result.getComment() : "");

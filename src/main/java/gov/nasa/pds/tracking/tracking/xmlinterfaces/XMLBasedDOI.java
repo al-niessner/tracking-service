@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -35,7 +37,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import gov.nasa.pds.tracking.tracking.db.DBConnector;
 import gov.nasa.pds.tracking.tracking.db.Doi;
 import gov.nasa.pds.tracking.tracking.db.DoiDao;
 
@@ -47,6 +48,7 @@ import gov.nasa.pds.tracking.tracking.db.DoiDao;
 public class XMLBasedDOI {
 	
 	public static Logger logger = Logger.getLogger(XMLBasedDOI.class);
+	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
 	 * @return
@@ -94,7 +96,7 @@ public class XMLBasedDOI {
 		            subRootElement.appendChild(doiElement);
 		            
 		            Element dateElement = doc.createElement(Doi.DATECOLUME);
-		            dateElement.appendChild(doc.createTextNode(d.getDate()));
+		            dateElement.appendChild(doc.createTextNode(df.format(d.getDate())));
 		            subRootElement.appendChild(dateElement);
 		            
 		            Element urlElement = doc.createElement(Doi.URLCOLUME);
@@ -186,7 +188,7 @@ public class XMLBasedDOI {
 		            subRootElement.appendChild(doiElement);
 		            
 		            Element dateElement = doc.createElement(Doi.DATECOLUME);
-		            dateElement.appendChild(doc.createTextNode(d.getDate()));
+		            dateElement.appendChild(doc.createTextNode(df.format(d.getDate())));
 		            subRootElement.appendChild(dateElement);
 		            
 		            Element urlElement = doc.createElement(Doi.URLCOLUME);
@@ -250,9 +252,8 @@ public class XMLBasedDOI {
 		
 		try {
 			dd = new DoiDao();
-		
-			String currentTime = DBConnector.ISO_BASIC.format(new Date());
-			Doi d = new Doi(id, ver, doi, currentTime, url, email, comment);
+
+			Doi d = new Doi(id, ver, doi, new Timestamp(new Date().getTime()), url, email, comment);
 			
 			int result = dd.insertDOI(d);
 			
@@ -279,7 +280,7 @@ public class XMLBasedDOI {
 	            subRootElement.appendChild(doiElement);
 	            
 	            Element dateElement = doc.createElement(Doi.DATECOLUME);
-	            dateElement.appendChild(doc.createTextNode(d.getDate()));
+	            dateElement.appendChild(doc.createTextNode(df.format(d.getDate())));
 	            subRootElement.appendChild(dateElement);
 	            
 	            Element urlElement = doc.createElement(Doi.URLCOLUME);
@@ -370,7 +371,7 @@ public class XMLBasedDOI {
 	            subRootElement.appendChild(doiElement);
 	            
 	            Element dateElement = doc.createElement(Doi.DATECOLUME);
-	            dateElement.appendChild(doc.createTextNode(updatedDOI.getDate()));
+	            dateElement.appendChild(doc.createTextNode(df.format(updatedDOI.getDate())));
 	            subRootElement.appendChild(dateElement);
 	            
 	            Element urlElement = doc.createElement(Doi.URLCOLUME);
