@@ -21,12 +21,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>gov.nasa.pds.2010</groupId>
+    <groupId>gov.nasa.pds</groupId>
     <artifactId>tracking</artifactId>
     <version>0.4.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>gov.nasa.pds.2010.tracking</groupId>
+  <groupId>gov.nasa.pds</groupId>
   <artifactId>tracking-service</artifactId>
   <packaging>war</packaging>
 
@@ -34,7 +34,7 @@
   <description>
     The Tracking Service provides functionality for tracking status and other aspects pertaining to PDS products that are not captured in the Registry Service.
   </description>
-  <url>https://pds-cm.jpl.nasa.gov/pds4/tracking/tracking-service/</url>
+  <url>https://pds-engineering.jpl.nasa.gov/development/pds4/current/tracking-service/</url>
 
   <licenses>
     <license>
