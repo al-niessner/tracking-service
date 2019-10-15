@@ -20,14 +20,10 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>gov.nasa.pds</groupId>
-    <artifactId>tracking</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
-  </parent>
 
   <groupId>gov.nasa.pds</groupId>
   <artifactId>tracking-service</artifactId>
+  <version>0.4.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>Tracking Service</name>
@@ -36,6 +32,12 @@
   </description>
   <url>https://pds-engineering.jpl.nasa.gov/development/pds4/current/tracking-service/</url>
 
+  <scm>
+    <url>https://github.jpl.nasa.gov/PDSEN/tracking-service/tree/master</url>
+    <connection>scm:git:git://github.jpl.nasa.gov/PDSEN/tracking-service.git</connection>
+    <developerConnection>scm:git:ssh://github.jpl.nasa.gov:PDSEN/tracking-service.git</developerConnection>
+  </scm>
+
   <licenses>
     <license>
       <name>California Institute of Technology</name>
@@ -43,6 +45,27 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
+  <developers>
+    <developer>
+      <name>Jordan Padams</name>
+      <id>jpadams</id>
+      <email>Jordan.H.Padams@jpl.nasa.gov</email>
+      <organization>NASA Jet Propulsion Laboratory</organization>
+      <roles>
+        <role>PDS Engineering Node Manager</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Galen Hollins</name>
+      <id>ghollins</id>
+      <email>Galen.Hollins@jpl.nasa.gov</email>
+      <organization>NASA Jet Propulsion Laboratory</organization>
+      <roles>
+        <role>PDS Engineering Node Development Lead</role>
+      </roles>
+    </developer>
+  </developers>
     
   <build>
     <plugins>
@@ -99,8 +122,99 @@
           <server>tomcat-local</server>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.7.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
+          <format>{0,date,yyyy-MM-dd HH:mm:ss}</format>
+          <items>
+            <item>timestamp</item>
+          </items>
+          <doCheck>false</doCheck>
+          <doUpdate>false</doUpdate>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.22.2</version>
+      </plugin>
+      <plugin>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.22.2</version>
+      </plugin>
+
+      <!-- Skip deployment for now -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile> 
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                  <goal>test-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <source>1.8</source>
+              <failOnError>false</failOnError>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <repositories>
     <!-- Hosts the PDS and OODT artifacts. -->
@@ -164,13 +278,42 @@
 	</dependency>
   </dependencies>
   
-  <!-- Project Information and Reports inherited from parent. -->
   <reporting>
-    <!-- Project Reports not inherited from parent. -->
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependencies</report>
+              <report>issue-management</report>
+              <report>licenses</report>
+              <report>mailing-lists</report>
+              <report>team</report>
+              <report>summary</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>changes-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <failOnError>false</failOnError>
+        </configuration>
       </plugin>
     </plugins>
   </reporting>
