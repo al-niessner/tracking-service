@@ -17,9 +17,14 @@
 -->
 
 <project name="Tracking Service">
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.8</version>
+  </skin>
   <bannerLeft>
     <src>images/pds4_logo.png</src>
-    <href>https://pds-cm.jpl.nasa.gov/pds4/</href>
+    <href>../../</href>
   </bannerLeft>
 
   <bannerRight>
@@ -30,7 +35,7 @@
 
   <body>
     <links>
-      <item name="Tracking Service" href="https://pds-cm.jpl.nasa.gov/pds4/tracking/tracking-service/index.html" />
+      <item name="Tracking Service" href="../tracking-service/" />
     </links>
 
     <menu name="Software Documentation">
