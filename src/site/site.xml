@@ -22,31 +22,37 @@
     <artifactId>maven-fluido-skin</artifactId>
     <version>1.8</version>
   </skin>
+
   <bannerLeft>
-    <src>images/pds4_logo.png</src>
-    <href>../../</href>
+    <src>images/pds_banner.png</src>
+    <href>https://pds.nasa.gov</href>
+    <width>500</width>
   </bannerLeft>
 
   <bannerRight>
     <name>Tracking Service</name>
+    <href>https://github.com/NASA-PDS/${project.artifactId}</href>
   </bannerRight>
 
   <version/>
 
   <body>
     <links>
-      <item name="Tracking Service" href="../tracking-service/" />
+      <item name="Tracking Service Github Repo" href="https://github.com/NASA-PDS/${project.artifactId}" />
     </links>
 
-    <menu name="Software Documentation">
+    <menu name="Documentation">
       <item name="About Tracking Service" href="index.html"/>
       <item name="Installation" href="install/index.html"/>
       <item name="Operation" href="operate/index.html"/>
+      <item name="Changelog" href="https://github.com/NASA-PDS/${project.artifactId}/blob/${project.version}/CHANGELOG.md#${project.version}" />
+      <item name="Support" href="index.html#Support" />
     </menu>
 
-    <menu name="Download">
-      <item name="Binary Package (tar.gz)" href="https://pds.nasa.gov/software/pds4/tracking/${project.artifactId}-${project.version}-bin.tar.gz"/>
-      <item name="Binary Package (zip)" href="https://pds.nasa.gov/software/pds4/tracking/${project.artifactId}-${project.version}-bin.zip"/>
+
+    <menu name="Downloads">
+      <item name="Current Release (tar.gz)" href="https://github.com/NASA-PDS/${project.artifactId}/releases/download/${project.version}/${project.artifactId}-${project.version}-bin.tar.gz"/>
+      <item name="Current Release (zip)" href="https://github.com/NASA-PDS/${project.artifactId}/releases/download/${project.version}/${project.artifactId}-${project.version}-bin.zip"/>
     </menu>
 
     <menu ref="reports"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2016-2017, by the California Institute of Technology.
+  Copyright 2016-2020, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology 
   Transfer at the California Institute of Technology.
@@ -13,7 +13,6 @@
   may be required before exporting such information to foreign countries or 
   providing access to foreign nationals.
 
-  $Id$
 -->
 
 <document>
@@ -26,9 +25,21 @@
     <section name="About Tracking Service">
       <p>The Tracking Service provides functionality for tracking status and other aspects pertaining to PDS products that are not captured in the Registry Service.
       </p>
+    </section>
 
-      <p>Please send comments, change requests and bug reports to the <a href="mailto:pds_operator@jpl.nasa.gov">PDS Operator</a> at pds_operator@jpl.nasa.gov.
+    <section name="Support">
+      <p><b><i>Found a bug?</i></b> Or <b><i>want a new feature?</i></b> We would love your feedback and contributions. Here are some links to our public Github repository for source code and submitting issues:</p>
+
+      <ul>
+        <li>Issue Tracker: <a href="https://github.com/NASA-PDS/${project.artifactId}/issues">https://github.com/NASA-PDS/${project.artifactId}/issues</a></li>
+        <li>Source Code: <a href="https://github.com/NASA-PDS/${project.artifactId}/">https://github.com/NASA-PDS/${project.artifactId}</a></li>
+      </ul>
+
+      <p>Need help with installation or operation of the software, or any other additional feedback, please contact us at
+        <a href="mailto:pds_operator@jpl.nasa.gov">pds_operator@jpl.nasa.gov</a>.
       </p>
+
+      <p></p>
     </section>
   </body>
 </document>

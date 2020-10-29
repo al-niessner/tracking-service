@@ -21,51 +21,40 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <!-- Inherit release profile, reporting, SNAPSHOT repo, etc. from parent repo -->
+  <parent>
+    <groupId>gov.nasa</groupId>
+    <artifactId>pds</artifactId>
+    <version>1.4.0</version>
+  </parent>
+  
   <groupId>gov.nasa.pds</groupId>
   <artifactId>tracking-service</artifactId>
   <version>0.5.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>Tracking Service</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>
     The Tracking Service provides functionality for tracking status and other aspects pertaining to PDS products that are not captured in the Registry Service.
   </description>
-  <url>https://pds-engineering.jpl.nasa.gov/development/pds4/current/tracking-service/</url>
+  <url>https://NASA-PDS.github.io/validate/</url>
 
+  <organization>
+    <name>Jet Propulsion Laboratory, California Institute of Technology</name>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+  
   <scm>
     <url>https://github.jpl.nasa.gov/PDSEN/tracking-service/tree/master</url>
     <connection>scm:git:git://github.jpl.nasa.gov/PDSEN/tracking-service.git</connection>
     <developerConnection>scm:git:ssh://github.jpl.nasa.gov:PDSEN/tracking-service.git</developerConnection>
   </scm>
-
-  <licenses>
-    <license>
-      <name>California Institute of Technology</name>
-      <url>file:///${basedir}/LICENSE.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-
-  <developers>
-    <developer>
-      <name>Jordan Padams</name>
-      <id>jpadams</id>
-      <email>Jordan.H.Padams@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>PDS Engineering Node Manager</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Galen Hollins</name>
-      <id>ghollins</id>
-      <email>Galen.Hollins@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>PDS Engineering Node Development Lead</role>
-      </roles>
-    </developer>
-  </developers>
     
   <build>
     <plugins>
@@ -149,20 +138,12 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>3.0.0-M3</version>
       </plugin>
       <plugin>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>3.0.0-M3</version>
       </plugin>
 
       <!-- Skip deployment for now -->
@@ -175,63 +156,6 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile> 
-      <id>release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <phase>prepare-package</phase>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                  <goal>test-jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <source>1.8</source>
-              <failOnError>false</failOnError>
-            </configuration>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
-  <repositories>
-    <!-- Hosts the PDS and OODT artifacts. -->
-    <repository>
-      <id>pds-repo</id>
-      <name>PDS Maven Repository</name>
-      <url>https://pds-cm.jpl.nasa.gov/maven2</url>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-        <checksumPolicy>warn</checksumPolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <dependencies>
     <dependency>
@@ -277,44 +201,5 @@
 	    <version>1.0.2</version>
 	</dependency>
   </dependencies>
-  
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>dependencies</report>
-              <report>issue-management</report>
-              <report>licenses</report>
-              <report>mailing-lists</report>
-              <report>team</report>
-              <report>summary</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>changes-report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <failOnError>false</failOnError>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
+
 </project>
