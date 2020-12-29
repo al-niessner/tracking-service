@@ -161,3 +161,10 @@ If you want to access snapshots, add the following to your `~/.m2/settings.xml`:
    </profile>
 </profiles>
 ```
+
+# Build product as docker image
+
+The code from a repository:
+```
+docker build --network=host -t tracking_service:$(git rev-parse HEAD) -f Dockerfile.local .
+```
