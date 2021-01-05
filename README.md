@@ -176,7 +176,7 @@ If you want to access snapshots, add the following to your `~/.m2/settings.xml`:
 
 ## Running
 
-The image is built to run ??. To verify the build and run the equivalent of `mvn site:run` as describe above, add `/tmp/run.sh` to the end of the docker run command.
+The image is built to run tracking within tomcat. To verify the build and run the equivalent of `mvn site:run` as describe above, add `/tmp/run.sh` to the end of the docker run command.
 
 All of the run examples below use the host network for simplicity but this can be very insecure. These are just simple examples are not intented to be how to securely run an exposed service. Use the appropriate network in your operations to meet your security needs.
 
