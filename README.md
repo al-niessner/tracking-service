@@ -161,3 +161,31 @@ If you want to access snapshots, add the following to your `~/.m2/settings.xml`:
    </profile>
 </profiles>
 ```
+
+# Docker
+
+## Building
+
+### Local Repository
+
+`docker build --network=host -t tracking_service:$(git rev-parse HEAD) -f Dockerfile.local .`
+
+### Release
+
+`docker build --build-arg VERSION=${VERSION} --network=host -t tracking_service:${VERSION} - < Dockerfile.release`
+
+## Running
+
+The image is built to run tracking within tomcat. To verify the build and run the equivalent of `mvn site:run` as describe above, add `/tmp/run.sh` to the end of the docker run command.
+
+All of the run examples below use the host network for simplicity but this can be very insecure. These are just simple examples are not intented to be how to securely run an exposed service. Use the appropriate network in your operations to meet your security needs.
+
+Lastly, using the --expose (-p) switch of docker run, the 8080 port can be moved without having to rebuild the container.
+
+### Local Repository
+
+`docker run --rm --expose 8080:8080 tracking_service:$(git rev-parse HEAD)`
+
+### Release
+
+`docker run --rm --expose 8080:8080 tracking_service:${VERSION}`
