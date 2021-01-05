@@ -20,6 +20,7 @@ EXPOSE 8080
 # Build up the OS
 RUN apt-get update && \
     apt-get install -y maven \
+                       mysql-server \
                        openjdk-11-jdk-headless \
                        tomcat9 \
                        tomcat9-admin
