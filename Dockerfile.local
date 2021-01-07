@@ -26,6 +26,12 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                        tomcat9 \
                        tomcat9-admin
 
+# Setup needs for mysql
+RUN mkdir -p /var/run/mysqld && chmod 777 /var/run/mysqld
+
+# Need to run all of the services
+RUN echo "( /usr/sbin/mysqld& ) ; /usr/libexec/tomcat9/tomcat-start.sh" > /etc/init.d/run_all.sh && chmod 755 /etc/init.d/run_all.sh
+
 # Build the application and deploy it inside the container
 RUN cd /tmp && \
     mvn site && \
@@ -36,4 +42,4 @@ RUN cd /tmp && \
 
 # Start tomcat when the container is run
 ENTRYPOINT ["/usr/bin/bash"]
-CMD ["/usr/libexec/tomcat9/tomcat-start.sh"]
+CMD ["/etc/init.d/run_all.sh"]
