@@ -18,7 +18,8 @@ ENV JRE_HOME=/usr
 EXPOSE 8080
 
 # Build up the OS
-RUN apt-get update && \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
     apt-get install -y maven \
                        mysql-server \
                        openjdk-11-jdk-headless \

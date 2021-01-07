@@ -180,12 +180,12 @@ The image is built to run tracking within tomcat. To verify the build and run th
 
 All of the run examples below use the host network for simplicity but this can be very insecure. These are just simple examples are not intented to be how to securely run an exposed service. Use the appropriate network in your operations to meet your security needs.
 
-Lastly, using the --expose (-p) switch of docker run, the 8080 port can be moved without having to rebuild the container.
+Lastly, using the --publish (-p) switch of docker run, the 8080 port can be moved without having to rebuild the container.
 
 ### Local Repository
 
-`docker run --rm --expose 8080:8080 tracking_service:$(git rev-parse HEAD)`
+`docker run --rm --publish 8080:8080 tracking_service:$(git rev-parse HEAD)`
 
 ### Release
 
-`docker run --rm --expose 8080:8080 tracking_service:${VERSION}`
+`docker run --rm --publish 8080:8080 tracking_service:${VERSION}`
