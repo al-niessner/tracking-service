@@ -35,4 +35,4 @@ RUN cd /tmp && \
 
 # Start tomcat when the container is run
 ENTRYPOINT ["/usr/bin/bash"]
-CMD ["/etc/init.d/run_all.sh"]
+CMD ["/usr/libexec/tomcat9/tomcat-start.sh"]
