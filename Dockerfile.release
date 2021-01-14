@@ -18,24 +18,10 @@ EXPOSE 8080
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y maven \
-                       mysql-server \
                        openjdk-11-jdk-headless \
                        tomcat9 \
                        tomcat9-admin \
                        wget
-
-# Setup needs for mysql
-RUN mkdir -p /var/run/mysqld && \
-    chmod 777 /var/run/mysqld && \
-    ( /usr/sbin/mysqld& ) && \
-    sleep 5 && \
-    /usr/bin/mysqladmin -u root create tracking && \
-    /usr/bin/mysql -u root -e "USE mysql; CREATE USER tracking@localhost IDENTIFIED BY 'p@ssw0rd'; GRANT ALL ON tracking.* TO tracking@localhost; FLUSH PRIVILEGES" && \
-    /usr/bin/mysql -u tracking --password='p@ssw0rd' tracking < /tmp/src/main/resources/schema/create-schema.sql && \
-    /usr/bin/mysqladmin -u root shutdown
-
-# Need to run all of the services
-RUN echo "( /usr/sbin/mysqld& ) ; /usr/libexec/tomcat9/tomcat-start.sh" > /etc/init.d/run_all.sh && chmod 755 /etc/init.d/run_all.sh
 
 # Build the application and deploy it inside the container
 RUN cd /tmp && \
