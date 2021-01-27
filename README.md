@@ -182,10 +182,81 @@ All of the run examples below use the host network for simplicity but this can b
 
 Lastly, using the --publish (-p) switch of docker run, the 8080 port can be moved without having to rebuild the container.
 
+### Preparation
+
+Need to have a mysql up and running. How that is done is entirely up to the reader but using the mysql docker image from dockerhub.com is covered here.
+
+1. Create space for mysql (not doing this will make your data ephemeral)
+1. Create a network for connnecting mysql, tomcat, and the reset of the world
+1. Get the mysql container
+1. Run the server
+1. Create the database tables for tracking_service
+1. _Optional_ Load the database with some test data
+1. Create a jdbc.properties file for to connect between your DB and tracking_service
+1. run tomcat as described in sections below
+
+```
+mkdir -p /path/to/your/persistent/data/directory
+docker network create -d bridge pds_ts
+docker pull mysql:8.0.22
+docker run --detach --rm \
+           --env MYSQL_DATABASE=tracking \
+           --env MYSQL_PASSWORD=your_password \
+           --env MYSQL_ROOT_PASSWORD=not_overly_secure \
+           --env MYSQL_USER=tracking \
+           --name mysql-server \
+           --network=pds_ts \
+           --publish 3306:3306 \
+           --volume /path/to/your/persistent/data/directory:/var/lib/mysql \
+           mysql:8.0.22
+docker run --interactive \
+           --network=pds_ts \
+           --rm mysql:8.0.22 \
+           mysql --database=tracking \
+                 --host=mysql-server \
+                 --password='your_password' \
+                 --user=tracking < /path/to/your/tracking-service/src/main/resources/schema/create-schema.sql
+docker run --interactive \
+           --network=pds_ts \
+           --rm mysql:8.0.22 \
+           mysql --database=tracking \
+                 --host=mysql-server \
+                 --password='your_password' \
+                 --user=tracking < /path/to/your/tracking-service/src/main/resources/schema/load-schema.sql
+```
+
+__NOTE__: The `create-schema.sql` and `load-schema.sql` are in the tracking-service repository.
+
+Place in `/path/to/your/jdbc.properties` the following content:
+```
+javax.persistence.jdbc.url=jdbc:mysql://mysql-server:3306/tracking?allowPublicKeyRetrieval=true&useSSL=false
+javax.persistence.jdbc.user=tracking
+javax.persistence.jdbc.password=your_password
+javax.persistence.jdbc.driver=com.mysql.jdbc.Driver
+
+achive.status.table.name=archive_status
+certification.status.table.name=certification_status
+nssdca.status.table.name=nssdca_status
+```
+
+__NOTE__: Make `your_password` anything you want. In fact any of the values can change, like 'tracking' for database as long as you do it consistently in all places.
+
 ### Local Repository
 
-`docker run --rm --publish 8080:8080 tracking_service:$(git rev-parse HEAD)`
+```
+docker run --detach --rm \
+           --network=pds_ts \
+           --publish 8080:8080 \
+           --read-only --volume /path/to/your/jdbc.properties:/etc/tracking_service/jdbc.properties \
+           tracking_service:$(git rev-parse HEAD)
+```
 
 ### Release
 
-`docker run --rm --publish 8080:8080 tracking_service:${VERSION}`
+```
+docker run --detach --rm \
+           --network=pds_ts \
+           --publish 8080:8080 \
+           --read-only --volume /path/to/your/jdbc.properties:/etc/tracking_service/jdbc.properties \
+           tracking_service:${VERSION}
+```
