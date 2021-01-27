@@ -30,6 +30,8 @@ RUN cd /tmp && \
     mvn site && \
     mvn package && \
     cp target/tracking.war ${CATALINA_BASE}/webapps && \
+    mkdir -p /etc/tracking_service && \
+    cp src/main/resources/mysql.properties /etc/tracking_service/jdbc.properties && \
     echo "cd /tmp ; mvn site:run" > /tmp/run.sh && \
     chmod 755 /tmp/run.sh
 
