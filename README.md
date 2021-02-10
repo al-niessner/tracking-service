@@ -197,7 +197,7 @@ Need to have a mysql up and running. How that is done is entirely up to the read
 
 ```
 mkdir -p /path/to/your/persistent/data/directory
-docker network create -d bridge pds_ts
+docker network create -d bridge pds
 docker pull mysql:8.0.22
 docker run --detach --rm \
            --env MYSQL_DATABASE=tracking \
@@ -205,19 +205,19 @@ docker run --detach --rm \
            --env MYSQL_ROOT_PASSWORD=not_overly_secure \
            --env MYSQL_USER=tracking \
            --name mysql-server \
-           --network=pds_ts \
+           --network=pds \
            --publish 3306:3306 \
            --volume /path/to/your/persistent/data/directory:/var/lib/mysql \
            mysql:8.0.22
 docker run --interactive \
-           --network=pds_ts \
+           --network=pds \
            --rm mysql:8.0.22 \
            mysql --database=tracking \
                  --host=mysql-server \
                  --password='your_password' \
                  --user=tracking < /path/to/your/tracking-service/src/main/resources/schema/create-schema.sql
 docker run --interactive \
-           --network=pds_ts \
+           --network=pds \
            --rm mysql:8.0.22 \
            mysql --database=tracking \
                  --host=mysql-server \
@@ -245,7 +245,7 @@ __NOTE__: Make `your_password` anything you want. In fact any of the values can 
 
 ```
 docker run --detach --rm \
-           --network=pds_ts \
+           --network=pds \
            --publish 8080:8080 \
            --read-only --volume /path/to/your/jdbc.properties:/etc/tracking_service/jdbc.properties \
            tracking_service:$(git rev-parse HEAD)
@@ -255,7 +255,7 @@ docker run --detach --rm \
 
 ```
 docker run --detach --rm \
-           --network=pds_ts \
+           --network=pds \
            --publish 8080:8080 \
            --read-only --volume /path/to/your/jdbc.properties:/etc/tracking_service/jdbc.properties \
            tracking_service:${VERSION}
